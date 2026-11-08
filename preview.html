@@ -77,18 +77,27 @@
     <h2 data-i18n="athletes_title"></h2>
 
     <h3 data-i18n="athletes_women_title"></h3>
+    <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;"></div>
+
+    <h3 data-i18n="athletes_men_title"></h3>
+    <div class="users" id="nordicm" style="display:flex;flex-wrap: wrap;"></div>
+
     <!-- Preview only: language is hardcoded here since this external script can't be re-triggered by the EN/FR/DE buttons above. -->
-    <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;">
-      <script>
-        (function () {
-          var scriptTag = document.createElement('script');
-          scriptTag.type = 'text/javascript';
-          scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
-          scriptTag.onload = function () { window.addAthlete("#nordicw", "Nordic Women Team", "en"); };
-          document.body.appendChild(scriptTag);
-        })();
-      </script>
-    </div>
+    <script>
+      function loadAthleteTeam(containerId, teamName) {
+        window.addAthlete(containerId, teamName, "en");
+      }
+      (function () {
+        var scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
+        scriptTag.onload = function () {
+          loadAthleteTeam('#nordicw', 'Nordic Women Team');
+          loadAthleteTeam('#nordicm', 'Nordic Men Team');
+        };
+        document.body.appendChild(scriptTag);
+      })();
+    </script>
 
     <style>
       .users {

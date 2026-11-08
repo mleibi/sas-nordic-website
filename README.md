@@ -27,5 +27,8 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 - `website.md` — code snippets for the website.
 - `pages/nordic-team/skeleton.html` — the one custom HTML block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). Identical everywhere except the `LANG` value in its `<script>`, which picks which JSON file of text to load.
 - `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `skeleton.html`.
+- `pages/nordic-team/icons/` — SVG icons for the Disciplines section, loaded via `<img>` from jsDelivr (not inlined).
+- `footer/sponsors.html` — site-wide sponsors footer markup (`#sponsors` container + styles). Paste into any Hivebrite page's custom HTML block.
+- `footer/sponsors-script.html` — companion script that loads the sponsor logos into `#sponsors`. Requires jQuery (already on Hivebrite). Paste alongside `sponsors.html`.
 
 Changing the page structure (adding/removing a section) means editing `skeleton.html` once and adding the matching key to all 3 JSON files. The push to `main` automatically purges the jsDelivr cache for changed files.

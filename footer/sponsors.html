@@ -1,0 +1,38 @@
+<!-- Site-wide sponsors footer markup. Paste into the custom HTML block of each Hivebrite page that needs it. -->
+<!-- Pair with footer/sponsors-script.html, which actually loads the sponsor content into #sponsors. -->
+<div id="sponsors"></div>
+
+<style>
+  #sponsors {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem !important;
+    padding: 1rem;
+  }
+
+  #sponsors h1, #sponsors h2, #sponsors h3,
+  #sponsors h4, #sponsors h5, #sponsors h6 {
+    transform: none !important;
+  }
+
+  /* nur Skalierung beim Hover, sonst nichts an Grösse/Position ändern */
+  #sponsors img {
+    transition: transform 0.3s ease;
+  }
+
+  #sponsors img:hover {
+    transform: scale(1.15);
+    position: relative;
+    z-index: 10;
+  }
+
+  #sponsors {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #sponsors.loaded {
+    opacity: 1;
+  }
+</style>

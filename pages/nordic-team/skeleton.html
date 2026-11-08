@@ -65,18 +65,27 @@
   <h2 data-i18n="athletes_title"></h2>
 
   <h3 data-i18n="athletes_women_title"></h3>
-  <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;">
-    <script>
-      (function () {
-        var scriptTag = document.createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
-        scriptTag.onload = function () { window.addAthlete("#nordicw", "Nordic Women Team", LANG); };
-        document.body.appendChild(scriptTag);
-      })();
-    </script>
-  </div>
-  <!-- TODO: Men and Staff athlete grids go here once the container id + team-name query for each is confirmed. -->
+  <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;"></div>
+
+  <h3 data-i18n="athletes_men_title"></h3>
+  <div class="users" id="nordicm" style="display:flex;flex-wrap: wrap;"></div>
+
+  <script>
+    function loadAthleteTeam(containerId, teamName) {
+      window.addAthlete(containerId, teamName, LANG);
+    }
+    (function () {
+      var scriptTag = document.createElement('script');
+      scriptTag.type = 'text/javascript';
+      scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
+      scriptTag.onload = function () {
+        loadAthleteTeam('#nordicw', 'Nordic Women Team');
+        loadAthleteTeam('#nordicm', 'Nordic Men Team');
+      };
+      document.body.appendChild(scriptTag);
+    })();
+  </script>
+  <!-- TODO: Staff athlete grid goes here once its container id + team-name query is confirmed. -->
 
   <style>
     .users {
