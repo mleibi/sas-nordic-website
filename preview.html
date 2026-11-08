@@ -139,6 +139,20 @@
       })();
     </script>
 
+    <h2 data-i18n="staff_title"></h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; text-align: center;">
+      <div style="min-width: 180px;">
+        <h4 data-i18n="staff_manager_role"></h4>
+        <p data-i18n="staff_manager_name"></p>
+        <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+      </div>
+      <div style="min-width: 180px;">
+        <h4 data-i18n="staff_coach_role"></h4>
+        <p data-i18n="staff_coach_name"></p>
+        <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+      </div>
+    </div>
+
     <style>
       .users {
         gap: 2rem;
@@ -195,7 +209,7 @@ function loadLang(lang) {
     performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
     marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' }
   };
-  fetch('pages/nordic-team/labels/' + lang + '.json')
+  fetch('pages/nordic-team/labels/' + lang + '.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (labels) {
       document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {

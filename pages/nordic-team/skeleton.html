@@ -125,7 +125,20 @@
       document.body.appendChild(scriptTag);
     })();
   </script>
-  <!-- TODO: Staff athlete grid goes here once its container id + team-name query is confirmed. -->
+
+  <h2 data-i18n="staff_title"></h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; text-align: center;">
+    <div style="min-width: 180px;">
+      <h4 data-i18n="staff_manager_role"></h4>
+      <p data-i18n="staff_manager_name"></p>
+      <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+    </div>
+    <div style="min-width: 180px;">
+      <h4 data-i18n="staff_coach_role"></h4>
+      <p data-i18n="staff_coach_name"></p>
+      <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+    </div>
+  </div>
 
   <style>
     .users {
@@ -187,7 +200,7 @@
     marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' }
   };
 
-  fetch(BASE + LANG + ".json")
+  fetch(BASE + LANG + ".json", { cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (labels) {
       document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
