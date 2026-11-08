@@ -10,6 +10,28 @@
     <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
   </p>
 
+  <h2 data-i18n="disciplines_title"></h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; text-align: center;">
+    <div style="flex: 1; min-width: 140px;">
+      <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/cross-country.svg" alt="" style="width: 80px; height: 80px;">
+      </div>
+      <h4 data-i18n="discipline_cc_title"></h4>
+    </div>
+    <div style="flex: 1; min-width: 140px;">
+      <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/biathlon.svg" alt="" style="width: 80px; height: 80px;">
+      </div>
+      <h4 data-i18n="discipline_biathlon_title"></h4>
+    </div>
+    <div style="flex: 1; min-width: 140px;">
+      <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/ski-orienteering.svg" alt="" style="width: 80px; height: 80px;">
+      </div>
+      <h4 data-i18n="discipline_sko_title"></h4>
+    </div>
+  </div>
+
   <h2 data-i18n="offer_title"></h2>
 
   <h4 data-i18n="what_title"></h4>
@@ -37,18 +59,47 @@
     <li data-i18n="comp_item_6"></li>
   </ul>
 
+  <h2 data-i18n="wwug_title"></h2>
+  <p><img src="https://sas-ski.ch/storage/6109565/download" alt="" style="max-width: 100%; height: auto;"></p>
+  <p data-i18n="wwug_p1"></p>
+  <p><strong data-i18n="wwug_criteria_title"></strong></p>
+  <ul>
+    <li data-i18n="wwug_criteria_item_1"></li>
+    <li data-i18n="wwug_criteria_item_2"></li>
+    <li data-i18n-template="wwug_criteria_item_3"></li>
+  </ul>
+  <p data-i18n-template="wwug_contact_p"></p>
+
 </div>
 
 <script>
 (function () {
   var LANG = "en"; // <-- only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de"
   var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/";
+
+  // Fixed, non-translated link targets. Labels only supply translated link text via {placeholder} tokens.
+  var LINKS = {
+    performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
+    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' }
+  };
+
   fetch(BASE + LANG + ".json")
     .then(function (r) { return r.json(); })
     .then(function (labels) {
       document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
         var key = el.getAttribute('data-i18n');
         if (labels[key] !== undefined) el.textContent = labels[key];
+      });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-template');
+        var template = labels[key];
+        if (template === undefined) return;
+        el.innerHTML = template.replace(/\{(\w+)\}/g, function (match, name) {
+          var link = LINKS[name];
+          if (!link) return match;
+          var text = labels[link.textKey] !== undefined ? labels[link.textKey] : name;
+          return '<a href="' + link.url + '" ' + link.attrs + '>' + text + '</a>';
+        });
       });
     });
 })();

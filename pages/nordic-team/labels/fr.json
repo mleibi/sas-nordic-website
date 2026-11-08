@@ -3,6 +3,10 @@
   "welcome_p1": "L'équipe de ski de fond du SAS est une structure régionale affiliée à Swiss-Ski, destinée aux étudiant·es passionné·es de ski nordique. Durant l'été, les membres ont la possibilité de participer à des stages d'entraînement et de bénéficier d'un encadrement professionnel. En hiver, l'objectif est de prendre part aux compétitions nationales en vue des compétitions internationales, tout en participant également à d'autres événements, comme les marathons de ski.",
   "welcome_p2": "Les athlètes membres du SAS pratiquant le biathlon, le ski d'orientation ou d'autres disciplines nordiques font également partie de la famille nordique, même s'il n'existe pas d'entraînement spécifique pour ces disciplines.",
   "join_us_label": "Rejoignez-nous",
+  "disciplines_title": "Disciplines",
+  "discipline_cc_title": "Ski de fond",
+  "discipline_biathlon_title": "Biathlon",
+  "discipline_sko_title": "Ski-orientation",
   "offer_title": "Offre",
   "what_title": "Que proposons-nous ?",
   "what_item_1": "Stages d'entraînement tout au long de l'année",
@@ -19,5 +23,14 @@
   "comp_item_3": "Winter World University Games (tous les 2 ans)",
   "comp_item_4": "Épreuves du Swiss Loppet (sélectionnées)",
   "comp_item_5": "Événements du SAS, tels que le Pentathlon",
-  "comp_item_6": "Swiss University Sports Event"
+  "comp_item_6": "Swiss University Sports Event",
+  "wwug_title": "Winter World University Games",
+  "wwug_p1": "Les Winter World University Games, anciennement appelés Universiade, sont les Jeux olympiques des étudiant·es universitaires. En étroite collaboration avec Swiss University Sports, le SAS soutient les disciplines nordiques.",
+  "wwug_criteria_title": "Critères :",
+  "wwug_criteria_item_1": "Être inscrit·e dans une université ou une haute école",
+  "wwug_criteria_item_2": "Âge : 28 ans ou moins",
+  "wwug_criteria_item_3": "Remplir les {performance_criteria_link} fixés par Swiss University Sports",
+  "wwug_criteria_link_text": "critères de performance",
+  "wwug_contact_p": "Pour postuler, merci de contacter {marcel_ott_link}, coordinateur nordique chez Swiss University Sports.",
+  "wwug_contact_link_text": "Marcel Ott"
 }

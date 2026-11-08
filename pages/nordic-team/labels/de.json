@@ -3,6 +3,10 @@
   "welcome_p1": "Das SAS Nordic Team ist eine regionale Gruppierung von Swiss-Ski und steht Studierenden offen, die sich für nordische Skisport-Wettkämpfe begeistern. Im Sommer bieten wir Trainingslager und Coaching an, im Winter nehmen unsere Athletinnen und Athleten an verschiedenen Wettkämpfen teil. Unser Schwerpunkt liegt auf dem Langlauf, für den wir professionelle Unterstützung im Rahmen der Swiss-Cup-Rennserie bieten.",
   "welcome_p2": "Zusätzlich fördern wir auch Athletinnen und Athleten in anderen nordischen Disziplinen wie Biathlon, Ski-Orientierungslauf, Nordischer Kombination und Skisprung, auch wenn wir für diese Disziplinen kein spezifisches Training und keine Wettkampfbetreuung anbieten.",
   "join_us_label": "Jetzt mitmachen",
+  "disciplines_title": "Disziplinen",
+  "discipline_cc_title": "Langlauf",
+  "discipline_biathlon_title": "Biathlon",
+  "discipline_sko_title": "Ski-Orientierungslauf",
   "offer_title": "Angebot",
   "what_title": "Was bieten wir?",
   "what_item_1": "Monatliche Trainingslager von Juni bis November",
@@ -19,5 +23,14 @@
   "comp_item_3": "Winter World University Games (alle 2 Jahre)",
   "comp_item_4": "Ausgewählte Swiss-Loppet-Rennen",
   "comp_item_5": "SAS-Events wie das Pentathlon",
-  "comp_item_6": "Swiss University Sport Events"
+  "comp_item_6": "Swiss University Sport Events",
+  "wwug_title": "Winter World University Games",
+  "wwug_p1": "Die Winter World University Games, früher Universiade genannt, sind die Olympischen Spiele für Studierende. In enger Zusammenarbeit mit Swiss University Sports unterstützt der SAS die nordischen Disziplinen.",
+  "wwug_criteria_title": "Kriterien:",
+  "wwug_criteria_item_1": "Eingeschrieben an einer Universität oder Hochschule",
+  "wwug_criteria_item_2": "Alter: 28 Jahre oder jünger",
+  "wwug_criteria_item_3": "Erfüllung der {performance_criteria_link} von Swiss University Sports",
+  "wwug_criteria_link_text": "Leistungskriterien",
+  "wwug_contact_p": "Für Anmeldungen wende dich bitte an {marcel_ott_link}, den Nordic-Koordinator bei Swiss University Sports.",
+  "wwug_contact_link_text": "Marcel Ott"
 }
