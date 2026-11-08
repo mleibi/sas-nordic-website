@@ -1,0 +1,12 @@
+# OS / Google Drive junk
+.DS_Store
+Icon?
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
+
+# Google Drive sync conflict copies
+*(conflicted copy*
