@@ -1,6 +1,9 @@
 <!-- Shared custom HTML block for all 3 Hivebrite "Nordic Team" pages. -->
-<!-- Identical on every page except the LANG value in the script at the bottom. -->
+<!-- Identical on every page except the LANG value in the script below. -->
 <!-- Edit wording in labels/en.json, labels/fr.json, labels/de.json, not here. -->
+<script>
+  var LANG = "en"; // <-- only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de"
+</script>
 <div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;">
 
   <h2 data-i18n="welcome_title"></h2>
@@ -59,6 +62,56 @@
     <li data-i18n="comp_item_6"></li>
   </ul>
 
+  <h2 data-i18n="athletes_title"></h2>
+
+  <h3 data-i18n="athletes_women_title"></h3>
+  <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;">
+    <script>
+      (function () {
+        var scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
+        scriptTag.onload = function () { window.addAthlete("#nordicw", "Nordic Women Team", LANG); };
+        document.body.appendChild(scriptTag);
+      })();
+    </script>
+  </div>
+  <!-- TODO: Men and Staff athlete grids go here once the container id + team-name query for each is confirmed. -->
+
+  <style>
+    .users {
+      gap: 2rem;
+      justify-content: center;
+      padding-top: 2.5rem;
+      overflow: visible;
+    }
+
+    .users > * {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: athlete-in 0.5s ease backwards;
+      border-radius: 8px;
+    }
+
+    .users > *:hover {
+      transform: translateY(-8px) scale(1.06);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+      z-index: 5;
+      position: relative;
+    }
+
+    .users img {
+      transition: transform 0.4s ease;
+    }
+    .users > *:hover img {
+      transform: scale(1.08);
+    }
+
+    @keyframes athlete-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
   <h2 data-i18n="wwug_title"></h2>
   <p><img src="https://sas-ski.ch/storage/6109565/download" alt="" style="max-width: 100%; height: auto;"></p>
   <p data-i18n="wwug_p1"></p>
@@ -74,7 +127,6 @@
 
 <script>
 (function () {
-  var LANG = "en"; // <-- only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de"
   var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/";
 
   // Fixed, non-translated link targets. Labels only supply translated link text via {placeholder} tokens.
