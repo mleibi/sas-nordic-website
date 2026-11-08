@@ -22,4 +22,7 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 ## Files
 
 - `website.md` — code snippets for the website.
-- `pages/nordic-team/en.html`, `fr.html`, `de.html` — custom HTML block for each language version of the Nordic Team page. Hivebrite hosts a separate page per language; paste the matching file's contents into that page's custom HTML block.
+- `pages/nordic-team/skeleton.html` — the one custom HTML block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). Identical everywhere except the `LANG` value in its `<script>`, which picks which JSON file of text to load.
+- `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `skeleton.html`.
+
+Changing the page structure (adding/removing a section) means editing `skeleton.html` once and adding the matching key to all 3 JSON files. Remember to purge the jsDelivr cache for the JSON file(s) you changed (see above) so edits show up without waiting up to 7 days.
