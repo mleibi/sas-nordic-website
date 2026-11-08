@@ -111,6 +111,9 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         animation: athlete-in 0.5s ease backwards;
         border-radius: 8px;
+        overflow: hidden; /* clip the zoomed image to the card's rounded corners */
+        padding: 10px; /* breathing room so the hover zoom doesn't clip the image/name */
+        box-sizing: border-box;
       }
 
       .users > *:hover {
