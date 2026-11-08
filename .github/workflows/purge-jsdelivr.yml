@@ -1,0 +1,39 @@
+name: Purge jsDelivr cache
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Purge changed files from jsDelivr
+        run: |
+          REPO="mleibi/sas-nordic-website"
+          ZERO="0000000000000000000000000000000000000000"
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.event.after }}"
+
+          if [ "$BEFORE" = "$ZERO" ]; then
+            CHANGED=$(git ls-files)
+          else
+            CHANGED=$(git diff --name-only "$BEFORE" "$AFTER")
+          fi
+
+          if [ -z "$CHANGED" ]; then
+            echo "No changed files to purge"
+            exit 0
+          fi
+
+          echo "$CHANGED" | while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            url="https://purge.jsdelivr.net/gh/$REPO@main/$file"
+            echo "Purging: $url"
+            curl -s -o /dev/null -w "  -> HTTP %{http_code}\n" "$url"
+          done

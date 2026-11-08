@@ -11,7 +11,10 @@ The website itself is a page on [Hivebrite](https://hivebrite.io/), a hosted com
 - Push changes to the `main` branch on GitHub.
 - jsDelivr serves any file in this repo at:
   `https://cdn.jsdelivr.net/gh/<github-user>/<repo-name>@main/<path-to-file>`
-- jsDelivr caches files for up to 7 days. To force an immediate update after a push, purge the cache for the changed file(s):
+  For this repo, that's: `https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/<path-to-file>`
+  e.g. `https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/en.json`
+- jsDelivr caches files for up to 7 days. A GitHub Actions workflow (`.github/workflows/purge-jsdelivr.yml`) automatically purges the cache for every file changed on each push to `main`, so updates normally show up within a minute or two without any manual step.
+- If you ever need to purge a file manually (e.g. re-running after a failed workflow), hit:
   `https://purge.jsdelivr.net/gh/<github-user>/<repo-name>@main/<path-to-file>`
 - For instant updates without caching delay, reference a specific commit hash in the URL instead of `@main`.
 
@@ -25,4 +28,4 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 - `pages/nordic-team/skeleton.html` — the one custom HTML block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). Identical everywhere except the `LANG` value in its `<script>`, which picks which JSON file of text to load.
 - `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `skeleton.html`.
 
-Changing the page structure (adding/removing a section) means editing `skeleton.html` once and adding the matching key to all 3 JSON files. Remember to purge the jsDelivr cache for the JSON file(s) you changed (see above) so edits show up without waiting up to 7 days.
+Changing the page structure (adding/removing a section) means editing `skeleton.html` once and adding the matching key to all 3 JSON files. The push to `main` automatically purges the jsDelivr cache for changed files.
