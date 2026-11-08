@@ -1,0 +1,69 @@
+<!-- Local-only dev preview, not for Hivebrite. Loads labels from local files so edits show without pushing. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAS Nordic Team — preview</title>
+</head>
+<body style="font-family: sans-serif; padding: 20px;">
+
+  <div style="margin-bottom: 20px;">
+    <strong>Preview language:</strong>
+    <button onclick="loadLang('en')">EN</button>
+    <button onclick="loadLang('fr')">FR</button>
+    <button onclick="loadLang('de')">DE</button>
+  </div>
+
+  <div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+
+    <h2 data-i18n="welcome_title"></h2>
+    <p data-i18n="welcome_p1"></p>
+    <p data-i18n="welcome_p2"></p>
+    <p>
+      <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
+    </p>
+
+    <h2 data-i18n="offer_title"></h2>
+
+    <h4 data-i18n="what_title"></h4>
+    <ul>
+      <li data-i18n="what_item_1"></li>
+      <li data-i18n="what_item_2"></li>
+      <li data-i18n="what_item_3"></li>
+      <li data-i18n="what_item_4"></li>
+    </ul>
+
+    <h4 data-i18n="who_title"></h4>
+    <ul>
+      <li data-i18n="who_item_1"></li>
+      <li data-i18n="who_item_2"></li>
+      <li data-i18n="who_item_3"></li>
+    </ul>
+
+    <h4 data-i18n="comp_title"></h4>
+    <ul>
+      <li data-i18n="comp_item_1"></li>
+      <li data-i18n="comp_item_2"></li>
+      <li data-i18n="comp_item_3"></li>
+      <li data-i18n="comp_item_4"></li>
+      <li data-i18n="comp_item_5"></li>
+      <li data-i18n="comp_item_6"></li>
+    </ul>
+
+  </div>
+
+<script>
+function loadLang(lang) {
+  fetch('pages/nordic-team/labels/' + lang + '.json')
+    .then(function (r) { return r.json(); })
+    .then(function (labels) {
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (labels[key] !== undefined) el.textContent = labels[key];
+      });
+    });
+}
+loadLang('en');
+</script>
+</body>
+</html>
