@@ -1,0 +1,2 @@
+Add hero carousel photos here, named hero-1.jpg, hero-2.jpg, hero-3.jpg, ... (any number, any image format).
+The carousel in skeleton.html / preview.html auto-detects however many <img class="hero-slide"> tags exist, so after adding a new photo file, also add a matching <img> tag in the hero-carousel block.
