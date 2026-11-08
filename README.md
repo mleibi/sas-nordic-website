@@ -2,6 +2,10 @@
 
 Source files for the SAS Nordic Team website, served in production via [jsDelivr](https://www.jsdelivr.com/) directly from this GitHub repo.
 
+The website itself is a page on [Hivebrite](https://hivebrite.io/), a hosted community platform (not a standalone static site). Hivebrite controls the page URL and layout; this repo supplies assets (images, CSS, JS) that are referenced from custom HTML/CSS blocks pasted into the Hivebrite page editor.
+
+- Live page: https://sas-ski.ch/page/nordic-team-3
+
 ## How it works
 
 - Push changes to the `main` branch on GitHub.
@@ -18,3 +22,4 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 ## Files
 
 - `website.md` — code snippets for the website.
+- `pages/nordic-team/en.html`, `fr.html`, `de.html` — custom HTML block for each language version of the Nordic Team page. Hivebrite hosts a separate page per language; paste the matching file's contents into that page's custom HTML block.
