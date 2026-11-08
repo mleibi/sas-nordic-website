@@ -53,25 +53,25 @@
     <p data-i18n="welcome_p1"></p>
     <p data-i18n="welcome_p2"></p>
     <p>
-      <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
+      <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" class="btn-animated" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
     </p>
 
     <h2 data-i18n="disciplines_title"></h2>
     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; text-align: center;">
       <div style="flex: 1; min-width: 140px;">
-        <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
           <img src="pages/nordic-team/icons/cross-country.svg" alt="" style="width: 80px; height: 80px;">
         </div>
         <h4 data-i18n="discipline_cc_title"></h4>
       </div>
       <div style="flex: 1; min-width: 140px;">
-        <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
           <img src="pages/nordic-team/icons/biathlon.svg" alt="" style="width: 80px; height: 80px;">
         </div>
         <h4 data-i18n="discipline_biathlon_title"></h4>
       </div>
       <div style="flex: 1; min-width: 140px;">
-        <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+        <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
           <img src="pages/nordic-team/icons/ski-orienteering.svg" alt="" style="width: 80px; height: 80px;">
         </div>
         <h4 data-i18n="discipline_sko_title"></h4>
@@ -81,7 +81,7 @@
     <h2 data-i18n="offer_title"></h2>
 
     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around;">
-      <div style="flex: 1; min-width: 220px; max-width: 260px;">
+      <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
         <img src="https://sas-ski.ch/storage/6109559/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
         <h4 data-i18n="what_title"></h4>
         <ul>
@@ -91,7 +91,7 @@
           <li data-i18n="what_item_4"></li>
         </ul>
       </div>
-      <div style="flex: 1; min-width: 220px; max-width: 260px;">
+      <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
         <img src="https://sas-ski.ch/storage/6109560/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
         <h4 data-i18n="who_title"></h4>
         <ul>
@@ -100,7 +100,7 @@
           <li data-i18n="who_item_3"></li>
         </ul>
       </div>
-      <div style="flex: 1; min-width: 220px; max-width: 260px;">
+      <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
         <img src="https://sas-ski.ch/storage/6109561/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
         <h4 data-i18n="comp_title"></h4>
         <ul>
@@ -144,12 +144,12 @@
       <div style="min-width: 180px;">
         <h4 data-i18n="staff_manager_role"></h4>
         <p data-i18n="staff_manager_name"></p>
-        <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+        <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
       </div>
       <div style="min-width: 180px;">
         <h4 data-i18n="staff_coach_role"></h4>
         <p data-i18n="staff_coach_name"></p>
-        <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label"></a>
+        <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
       </div>
     </div>
 
@@ -187,6 +187,54 @@
       @keyframes athlete-in {
         from { opacity: 0; transform: translateY(20px); }
         to   { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+
+    <style>
+      /* Scroll-reveal: top-level sections fade/slide in as they enter the viewport */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Offer cards: lift + image zoom on hover */
+      .offer-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      .offer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+      .offer-card img {
+        transition: transform 0.4s ease;
+      }
+      .offer-card:hover img {
+        transform: scale(1.06);
+      }
+
+      /* Discipline icon circles: scale + glow on hover */
+      .discipline-icon {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .discipline-icon:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 20px rgba(10, 61, 98, 0.35);
+      }
+
+      /* Buttons/contact links: lift on hover */
+      .btn-animated {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-animated:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(10, 61, 98, 0.3);
       }
     </style>
 
@@ -230,6 +278,26 @@ function loadLang(lang) {
     });
 }
 loadLang('en');
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('#sas-nordic-welcome > *:not(script):not(style)');
+  targets.forEach(function (el) { el.classList.add('reveal'); });
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  targets.forEach(function (el) { observer.observe(el); });
+})();
 </script>
 
 <!-- Footer preview: content of footer/sponsors.html + footer/sponsors-script.html -->
