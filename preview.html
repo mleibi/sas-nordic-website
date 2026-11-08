@@ -177,5 +177,55 @@ function loadLang(lang) {
 }
 loadLang('en');
 </script>
+
+<!-- Footer preview: content of footer/sponsors.html + footer/sponsors-script.html -->
+<hr style="margin: 2rem 0;">
+<div id="sponsors"></div>
+
+<style>
+  #sponsors {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem !important;
+    padding: 1rem;
+  }
+
+  #sponsors h1, #sponsors h2, #sponsors h3,
+  #sponsors h4, #sponsors h5, #sponsors h6 {
+    transform: none !important;
+  }
+
+  /* nur Skalierung beim Hover, sonst nichts an Grösse/Position ändern */
+  #sponsors img {
+    transition: transform 0.3s ease;
+  }
+
+  #sponsors img:hover {
+    transform: scale(1.15);
+    position: relative;
+    z-index: 10;
+  }
+
+  #sponsors {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #sponsors.loaded {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    $('#sponsors').load(
+      'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@vlatest/sponsors-with-css.html',
+      function () {
+        $('#sponsors').addClass('loaded');
+      }
+    );
+  });
+</script>
 </body>
 </html>
