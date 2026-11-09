@@ -46,7 +46,7 @@
   "countdown_hours": "Heures",
   "countdown_minutes": "Minutes",
   "wwug_p1": "L'Universiade est l'équivalent des Jeux olympiques pour les étudiant·es universitaires. En étroite collaboration avec Swiss University Sports, le SAS soutient les disciplines nordiques.",
-  "wwug_location_p": "\ud83d\udccd Changchun, Chine \u2014 {official_site_link}",
+  "wwug_location_p": "📍 Changchun, Chine — {official_site_link}",
   "wwug_official_site_link_text": "Site officiel",
   "wwug_criteria_title": "Critères :",
   "wwug_criteria_item_1": "Être inscrit·e dans une université ou une haute école",
@@ -59,5 +59,10 @@
   "flip_label_since": "Membre de l'équipe depuis",
   "flip_label_university": "Université",
   "flip_label_studies": "Études",
-  "flip_label_sport": "Sport principal"
+  "flip_label_sport": "Sport principal",
+  "countdown_seconds": "Secondes",
+  "stat_athletes": "Athlètes",
+  "stat_disciplines": "Disciplines",
+  "stat_camps": "Camps d'entraînement par an",
+  "stat_coaches": "Entraîneur"
 }

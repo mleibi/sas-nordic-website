@@ -46,7 +46,7 @@
   "countdown_hours": "Hours",
   "countdown_minutes": "Minutes",
   "wwug_p1": "The Universiade is the Olympic Games for university students. In close collaboration with Swiss University Sports, SAS is involved in the support of the Nordic disciplines.",
-  "wwug_location_p": "\ud83d\udccd Changchun, China \u2014 {official_site_link}",
+  "wwug_location_p": "📍 Changchun, China — {official_site_link}",
   "wwug_official_site_link_text": "Official website",
   "wwug_criteria_title": "Criteria:",
   "wwug_criteria_item_1": "Enrolled at a university or college",
@@ -59,5 +59,10 @@
   "flip_label_since": "Team member since",
   "flip_label_university": "University",
   "flip_label_studies": "Studies",
-  "flip_label_sport": "Primary sport"
+  "flip_label_sport": "Primary sport",
+  "countdown_seconds": "Seconds",
+  "stat_athletes": "Athletes",
+  "stat_disciplines": "Disciplines",
+  "stat_camps": "Training camps per year",
+  "stat_coaches": "Coach"
 }

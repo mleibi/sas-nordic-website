@@ -46,7 +46,7 @@
   "countdown_hours": "Stunden",
   "countdown_minutes": "Minuten",
   "wwug_p1": "Die Universiade gilt als die Olympischen Spiele für Studierende. In enger Zusammenarbeit mit Swiss University Sports unterstützt der SAS die nordischen Disziplinen.",
-  "wwug_location_p": "\ud83d\udccd Changchun, China \u2014 {official_site_link}",
+  "wwug_location_p": "📍 Changchun, China — {official_site_link}",
   "wwug_official_site_link_text": "Offizielle Website",
   "wwug_criteria_title": "Kriterien:",
   "wwug_criteria_item_1": "Eingeschrieben an einer Universität oder Hochschule",
@@ -59,5 +59,10 @@
   "flip_label_since": "Teammitglied seit",
   "flip_label_university": "Universität",
   "flip_label_studies": "Studium",
-  "flip_label_sport": "Hauptsportart"
+  "flip_label_sport": "Hauptsportart",
+  "countdown_seconds": "Sekunden",
+  "stat_athletes": "Athletinnen & Athleten",
+  "stat_disciplines": "Disziplinen",
+  "stat_camps": "Trainingslager pro Jahr",
+  "stat_coaches": "Trainer"
 }
