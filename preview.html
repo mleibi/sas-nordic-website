@@ -161,16 +161,29 @@
           .then(function (r) { return r.json(); })
           .then(function (data) { ATHLETE_INFO = data; });
 
+        var CAPTIONS = {
+          en: { status: 'Status', since: 'Member since', university: 'University', studies: 'Studies', sport: 'Primary sport' },
+          fr: { status: 'Statut', since: 'Membre depuis', university: 'Université', studies: 'Études', sport: 'Sport principal' },
+          de: { status: 'Status', since: 'Mitglied seit', university: 'Universität', studies: 'Studium', sport: 'Hauptsportart' }
+        };
+        var CAP = CAPTIONS.en;
+
+        function row(label, value) {
+          if (!value) return '';
+          return '<div class="flip-row"><p class="flip-value">' + value + '</p><p class="flip-label">' + label + '</p></div>';
+        }
+
         function buildBack(name) {
           var info = ATHLETE_INFO[name];
           var back = document.createElement('div');
           back.className = 'flip-card-back';
           var html = '<p class="flip-card-name">' + name + '</p>';
           if (info) {
-            var line = [info.status, info.since].filter(Boolean).join(' · ');
-            if (line) html += '<p>' + line + '</p>';
-            if (info.university) html += '<p>' + info.university + '</p>';
-            if (info.studies) html += '<p>' + info.studies + '</p>';
+            html += row(CAP.status, info.status);
+            html += row(CAP.since, info.since);
+            html += row(CAP.university, info.university);
+            html += row(CAP.studies, info.studies);
+            html += row(CAP.sport, info.primarySport);
           }
           back.innerHTML = html;
           return back;
@@ -303,6 +316,20 @@
         font-weight: 700;
         font-size: 1rem;
         margin-bottom: 4px !important;
+      }
+      .flip-row {
+        margin: 0;
+      }
+      .flip-value {
+        margin: 0;
+        font-size: 0.85rem;
+      }
+      .flip-label {
+        margin: 0 0 6px 0 !important;
+        font-size: 0.65rem;
+        color: #b9c6d6;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
       }
     </style>
 
@@ -451,8 +478,8 @@
 
     <h2 id="wwug" data-i18n="wwug_title"></h2>
     <p><img src="https://sas-ski.ch/storage/6109565/download" data-i18n-alt="wwug_photo_alt" loading="lazy" style="max-width: 100%; height: auto;"></p>
-    <!-- TODO: placeholder target date, replace with the real next WWUG / major race date -->
-    <div class="countdown" id="wwug-countdown" data-target="2027-01-01T00:00:00">
+    <!-- Target date: 15.01.2027 -->
+    <div class="countdown" id="wwug-countdown" data-target="2027-01-15T00:00:00">
       <div class="countdown-item"><span class="countdown-value" data-unit="days">0</span><span class="countdown-label" data-i18n="countdown_days"></span></div>
       <div class="countdown-item"><span class="countdown-value" data-unit="hours">0</span><span class="countdown-label" data-i18n="countdown_hours"></span></div>
       <div class="countdown-item"><span class="countdown-value" data-unit="minutes">0</span><span class="countdown-label" data-i18n="countdown_minutes"></span></div>
