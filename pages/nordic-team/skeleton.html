@@ -8,13 +8,13 @@
 
   <!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src of each slide as photos come in. -->
   <div class="hero-carousel" style="position: relative; width: 100%; aspect-ratio: 16 / 6; overflow: hidden; border-radius: 8px; margin-bottom: 20px;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/6109557/download" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131072" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131074" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131075" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131077" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131076" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-    <img class="hero-slide" src="https://sas-ski.ch/storage/7131079" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/6109557" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131072" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131074" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131075" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131077" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131076" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+    <img class="hero-slide" src="https://sas-ski.ch/storage/7131079" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
   </div>
   <style>
     .hero-slide { animation: hero-zoom 14s ease-in-out infinite alternate; }
@@ -44,33 +44,41 @@
     <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" class="btn-animated" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
   </p>
 
-  <h2 data-i18n="disciplines_title"></h2>
+  <nav class="section-nav">
+    <a href="#disciplines" data-i18n="disciplines_title"></a>
+    <a href="#offer" data-i18n="offer_title"></a>
+    <a href="#athletes" data-i18n="athletes_title"></a>
+    <a href="#staff" data-i18n="staff_title"></a>
+    <a href="#wwug" data-i18n="wwug_title"></a>
+  </nav>
+
+  <h2 id="disciplines" data-i18n="disciplines_title"></h2>
   <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; text-align: center;">
     <div style="flex: 1; min-width: 140px;">
       <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/cross-country.svg" alt="" style="width: 80px; height: 80px;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/cross-country.svg" data-i18n-alt="discipline_cc_alt" style="width: 80px; height: 80px;">
       </div>
       <h4 data-i18n="discipline_cc_title"></h4>
     </div>
     <div style="flex: 1; min-width: 140px;">
       <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/biathlon.svg" alt="" style="width: 80px; height: 80px;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/biathlon.svg" data-i18n-alt="discipline_biathlon_alt" style="width: 80px; height: 80px;">
       </div>
       <h4 data-i18n="discipline_biathlon_title"></h4>
     </div>
     <div style="flex: 1; min-width: 140px;">
       <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/ski-orienteering.svg" alt="" style="width: 80px; height: 80px;">
+        <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/ski-orienteering.svg" data-i18n-alt="discipline_sko_alt" style="width: 80px; height: 80px;">
       </div>
       <h4 data-i18n="discipline_sko_title"></h4>
     </div>
   </div>
 
-  <h2 data-i18n="offer_title"></h2>
+  <h2 id="offer" data-i18n="offer_title"></h2>
 
   <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around;">
     <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
-      <img src="https://sas-ski.ch/storage/6109559/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+      <img src="https://sas-ski.ch/storage/6109559/download" data-i18n-alt="offer_what_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
       <h4 data-i18n="what_title"></h4>
       <ul>
         <li data-i18n="what_item_1"></li>
@@ -80,7 +88,7 @@
       </ul>
     </div>
     <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
-      <img src="https://sas-ski.ch/storage/6109560/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+      <img src="https://sas-ski.ch/storage/6109560/download" data-i18n-alt="offer_who_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
       <h4 data-i18n="who_title"></h4>
       <ul>
         <li data-i18n="who_item_1"></li>
@@ -89,7 +97,7 @@
       </ul>
     </div>
     <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
-      <img src="https://sas-ski.ch/storage/6109561/download" alt="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+      <img src="https://sas-ski.ch/storage/6109561/download" data-i18n-alt="offer_comp_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
       <h4 data-i18n="comp_title"></h4>
       <ul>
         <li data-i18n="comp_item_1"></li>
@@ -102,16 +110,22 @@
     </div>
   </div>
 
-  <h2 data-i18n="athletes_title"></h2>
+  <h2 id="athletes" data-i18n="athletes_title"></h2>
 
   <h3 data-i18n="athletes_women_title"></h3>
-  <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;"></div>
+  <div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;">
+    <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+  </div>
 
   <h3 data-i18n="athletes_men_title"></h3>
-  <div class="users" id="nordicm" style="display:flex;flex-wrap: wrap;"></div>
+  <div class="users" id="nordicm" style="display:flex;flex-wrap: wrap;">
+    <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+  </div>
 
   <script>
     function loadAthleteTeam(containerId, teamName) {
+      var container = document.querySelector(containerId);
+      if (container) container.innerHTML = ''; // clear the loading skeleton before injecting real cards
       window.addAthlete(containerId, teamName, LANG);
     }
     (function () {
@@ -126,14 +140,66 @@
     })();
   </script>
 
-  <h2 data-i18n="staff_title"></h2>
+  <!-- Click an athlete card to flip it and show extra info from athlete-info.json -->
+  <script>
+    (function () {
+      var ATHLETE_INFO = {};
+      fetch('https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/athlete-info.json', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) { ATHLETE_INFO = data; });
+
+      function buildBack(name) {
+        var info = ATHLETE_INFO[name];
+        var back = document.createElement('div');
+        back.className = 'flip-card-back';
+        var html = '<p class="flip-card-name">' + name + '</p>';
+        if (info) {
+          var line = [info.status, info.since].filter(Boolean).join(' · ');
+          if (line) html += '<p>' + line + '</p>';
+          if (info.university) html += '<p>' + info.university + '</p>';
+          if (info.studies) html += '<p>' + info.studies + '</p>';
+        }
+        back.innerHTML = html;
+        return back;
+      }
+
+      function enhance(container) {
+        container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
+          var nameEl = card.querySelector('p');
+          var name = nameEl ? nameEl.textContent.trim() : '';
+          var front = document.createElement('div');
+          front.className = 'flip-card-front';
+          while (card.firstChild) front.appendChild(card.firstChild);
+          var inner = document.createElement('div');
+          inner.className = 'flip-card-inner';
+          inner.appendChild(front);
+          inner.appendChild(buildBack(name));
+          card.appendChild(inner);
+          card.classList.add('flip-card');
+          card.addEventListener('click', function () {
+            card.classList.toggle('flipped');
+          });
+        });
+      }
+
+      ['#nordicw', '#nordicm'].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        new MutationObserver(function () { enhance(el); }).observe(el, { childList: true });
+      });
+    })();
+  </script>
+
+  <h2 id="staff" data-i18n="staff_title"></h2>
   <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; text-align: center;">
     <div style="min-width: 180px;">
+      <img src="https://sas-ski.ch/storage/6109562/download" data-i18n-alt="staff_manager_name" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto;">
       <h4 data-i18n="staff_manager_role"></h4>
       <p data-i18n="staff_manager_name"></p>
       <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
     </div>
     <div style="min-width: 180px;">
+      <img src="https://sas-ski.ch/storage/6109563/download" data-i18n-alt="staff_coach_name" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto;">
       <h4 data-i18n="staff_coach_role"></h4>
       <p data-i18n="staff_coach_name"></p>
       <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
@@ -175,6 +241,56 @@
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* Athlete card flip */
+    .users {
+      perspective: 1200px;
+    }
+    .flip-card {
+      cursor: pointer;
+      min-height: 260px;
+      position: relative;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s ease;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg) scale(1.05);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      backface-visibility: hidden;
+      width: 100%;
+    }
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      background: #0a3d62;
+      color: #fff;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      padding: 12px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .flip-card-back p {
+      margin: 0;
+    }
+    .flip-card-name {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px !important;
+    }
   </style>
 
   <style>
@@ -194,6 +310,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       border-radius: 8px;
       box-sizing: border-box;
+      background: #f4f7fa;
     }
     .offer-card:hover {
       transform: translateY(-6px);
@@ -223,10 +340,110 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 16px rgba(10, 61, 98, 0.3);
     }
+
+    /* Section nav */
+    .section-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+    .section-nav a {
+      color: #0a3d62;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+    .section-nav a:hover {
+      border-color: #0a3d62;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    h2[id] {
+      scroll-margin-top: 20px;
+    }
+
+    /* Back-to-top button */
+    #back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #0a3d62;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1000;
+    }
+    #back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Athlete grid loading skeleton */
+    .skeleton-card {
+      width: 160px;
+      height: 200px;
+      margin: 10px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #e8e8e8 25%, #f4f4f4 50%, #e8e8e8 75%);
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.3s infinite;
+    }
+    @keyframes skeleton-shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* WWUG countdown */
+    .countdown {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .countdown-item {
+      text-align: center;
+      background: #0a3d62;
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 18px;
+      min-width: 70px;
+    }
+    .countdown-value {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .countdown-label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
   </style>
 
-  <h2 data-i18n="wwug_title"></h2>
-  <p><img src="https://sas-ski.ch/storage/6109565/download" alt="" style="max-width: 100%; height: auto;"></p>
+  <h2 id="wwug" data-i18n="wwug_title"></h2>
+  <p><img src="https://sas-ski.ch/storage/6109565/download" data-i18n-alt="wwug_photo_alt" loading="lazy" style="max-width: 100%; height: auto;"></p>
+  <!-- TODO: placeholder target date, replace with the real next WWUG / major race date -->
+  <div class="countdown" id="wwug-countdown" data-target="2027-01-01T00:00:00">
+    <div class="countdown-item"><span class="countdown-value" data-unit="days">0</span><span class="countdown-label" data-i18n="countdown_days"></span></div>
+    <div class="countdown-item"><span class="countdown-value" data-unit="hours">0</span><span class="countdown-label" data-i18n="countdown_hours"></span></div>
+    <div class="countdown-item"><span class="countdown-value" data-unit="minutes">0</span><span class="countdown-label" data-i18n="countdown_minutes"></span></div>
+  </div>
   <p data-i18n="wwug_p1"></p>
   <p><strong data-i18n="wwug_criteria_title"></strong></p>
   <ul>
@@ -237,6 +454,8 @@
   <p data-i18n-template="wwug_contact_p"></p>
 
 </div>
+
+<button id="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
 
 <script>
 (function () {
@@ -255,6 +474,10 @@
         var key = el.getAttribute('data-i18n');
         if (labels[key] !== undefined) el.textContent = labels[key];
       });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-alt]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-alt');
+        if (labels[key] !== undefined) el.alt = labels[key];
+      });
       document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
         var key = el.getAttribute('data-i18n-template');
         var template = labels[key];
@@ -267,6 +490,48 @@
         });
       });
     });
+})();
+</script>
+
+<script>
+(function () {
+  // Back-to-top button: shows after scrolling past the hero carousel
+  var btn = document.getElementById('back-to-top');
+  var hero = document.querySelector('.hero-carousel');
+  if (!btn) return;
+  function toggle() {
+    var threshold = hero ? hero.offsetTop + hero.offsetHeight : 300;
+    btn.classList.toggle('visible', window.scrollY > threshold);
+  }
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle();
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  // WWUG countdown
+  var el = document.getElementById('wwug-countdown');
+  if (!el) return;
+  var target = new Date(el.getAttribute('data-target')).getTime();
+  var daysEl = el.querySelector('[data-unit="days"]');
+  var hoursEl = el.querySelector('[data-unit="hours"]');
+  var minutesEl = el.querySelector('[data-unit="minutes"]');
+  function update() {
+    var diff = target - Date.now();
+    if (diff < 0) diff = 0;
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    var minutes = Math.floor((diff / (1000 * 60)) % 60);
+    daysEl.textContent = days;
+    hoursEl.textContent = hours;
+    minutesEl.textContent = minutes;
+  }
+  update();
+  setInterval(update, 60000);
 })();
 </script>
 

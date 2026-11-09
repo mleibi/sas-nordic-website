@@ -28,7 +28,7 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 - `pages/nordic-team/skeleton.html` — the one custom HTML block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). Identical everywhere except the `LANG` value in its `<script>`, which picks which JSON file of text to load.
 - `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `skeleton.html`.
 - `pages/nordic-team/icons/` — SVG icons for the Disciplines section, loaded via `<img>` from jsDelivr (not inlined).
-- The hero photo carousel above the title uses Hivebrite-hosted images (`https://sas-ski.ch/storage/<id>/download`), not files in this repo — see "Images" below.
+- The hero photo carousel above the title uses Hivebrite-hosted images (`https://sas-ski.ch/storage/<id>`), not files in this repo — see "Images" below.
 - `footer/sponsors.html` — site-wide sponsors footer markup (`#sponsors` container + styles). Paste into any Hivebrite page's custom HTML block.
 - `footer/sponsors-script.html` — companion script that loads the sponsor logos into `#sponsors`. Requires jQuery (already on Hivebrite). Paste alongside `sponsors.html`.
 
