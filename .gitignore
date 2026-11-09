@@ -1,6 +1,8 @@
 # OS / Google Drive junk
 .DS_Store
 Icon?
+# Icon? also matches icons/ on case-insensitive macOS
+!icons/
 Thumbs.db
 desktop.ini
 

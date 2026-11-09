@@ -2,31 +2,7 @@
 
 ## Quick Start
 
-1. **Copy this skeleton HTML:**
-
-```html
-<div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;"></div>
-<script>
-(function() {
-  var LANG = "en";
-  var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
-  var ts = Date.now();
-  var url = BASE + "page-content.html?t=" + ts;
-  fetch(url)
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById("sas-nordic-welcome").innerHTML = html;
-      document.querySelectorAll("#sas-nordic-welcome script").forEach(old => {
-        var s = document.createElement("script");
-        Array.from(old.attributes).forEach(attr => s.setAttribute(attr.name, attr.value));
-        s.textContent = old.textContent;
-        old.parentNode.replaceChild(s, old);
-      });
-    })
-    .catch(e => console.error("Failed to load Nordic page:", e));
-})();
-</script>
-```
+1. **Copy the skeleton:** paste the full content of [`pages/nordic-team/skeleton.html`](pages/nordic-team/skeleton.html).
 
 2. **In Hivebrite:**
    - Edit the Nordic Team page
@@ -35,13 +11,16 @@
    - Save & Publish
    - Hard refresh browser (Cmd+Shift+R or Ctrl+Shift+Delete + refresh)
 
-3. **For German (DE) page:** Change `var LANG = "en"` to `var LANG = "de"`
+3. **For German (DE) page:** Change `window.LANG = "en"` to `window.LANG = "de"`
 
-4. **For French (FR) page:** Change `var LANG = "en"` to `var LANG = "fr"`
+4. **For French (FR) page:** Change `window.LANG = "en"` to `window.LANG = "fr"`
 
 ## How It Works
 
-- The skeleton fetches the latest content from GitHub via jsDelivr
+- The skeleton sets `window.LANG` and `window.BASE`, fetches `page-content.html` from GitHub via jsDelivr, injects it, and re-creates the `<script>` tags so they run.
+- Do **not** load `page-content.html` with `<script src>`: jsDelivr serves `.html` as `text/plain` with `nosniff`, so the browser refuses to run it.
+- Do **not** embed the HTML in a JS string: the first inner `</script>` ends the outer script.
+- This works because Hivebrite's CSP is in report-only mode (same as the old page with `sas_users-with-css.js`). If Hivebrite ever enforces it, ask them to whitelist `cdn.jsdelivr.net` in `script-src` and `connect-src`.
 - All text comes from language-specific JSON files (labels)
 - Images are hosted on Hivebrite (not in this repo)
 - Athletes load dynamically from `athlete-info.json`
@@ -70,8 +49,8 @@ $ git push origin main
 - Try a hard refresh (Cmd+Shift+R)
 
 **jsDelivr cache is stale?**
-- The skeleton includes `?t=` timestamp parameter to force fresh fetches
-- If still stale, ask jsDelivr to purge: https://purge.jsdelivr.net/gh/mleibi/sas-nordic-website/pages/nordic-team/
+- jsDelivr caches `@main` for up to ~12 hours.
+- Purge each changed file by opening its purge URL, e.g. https://purge.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/page-content.html
 
 **Images not loading?**
 - Images are hosted on `sas-ski.ch/storage/...` URLs
@@ -79,7 +58,7 @@ $ git push origin main
 
 ## Files
 
-- `skeleton-final.html` - Paste this into Hivebrite
+- `skeleton.html` - Paste this into Hivebrite
 - `page-content.html` - All content, structure, styling (auto-loaded)
 - `labels/en.json`, `labels/fr.json`, `labels/de.json` - Text translations
 - `athlete-info.json` - Athlete extra info for flip cards
