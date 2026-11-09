@@ -5,6 +5,48 @@
 <script>
 if (typeof window.LANG === 'undefined') window.LANG = 'en';
 if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
+
+// Auto-load labels as soon as defaults are set (don't wait for skeleton)
+(function autoLoadLabels() {
+  var LANG = window.LANG;
+  var BASE = window.BASE;
+  console.log('[autoLoadLabels] starting with LANG =', LANG, 'BASE =', BASE);
+  var LINKS = {
+    performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
+    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
+    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
+  };
+  fetch(BASE + 'labels/' + LANG + '.json', { cache: 'no-store' })
+    .then(function (r) { 
+      if (!r.ok) throw new Error('Failed to load labels: ' + r.status);
+      return r.json(); 
+    })
+    .then(function (labels) {
+      console.log('[autoLoadLabels] loaded', Object.keys(labels).length, 'labels, populating...');
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (labels[key] !== undefined) el.textContent = labels[key];
+      });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-alt]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-alt');
+        if (labels[key] !== undefined) el.alt = labels[key];
+      });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-template');
+        var template = labels[key];
+        if (template === undefined) return;
+        el.innerHTML = template.replace(/\{(\w+)\}/g, function (match, name) {
+          var link = LINKS[name];
+          if (!link) return match;
+          var text = labels[link.textKey] !== undefined ? labels[link.textKey] : name;
+          return '<a href="' + link.url + '" ' + link.attrs + '>' + text + '</a>';
+        });
+      });
+    })
+    .catch(function (err) {
+      console.error('[autoLoadLabels] error:', err);
+    });
+})();
 </script>
 
 <!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src of each slide as photos come in. -->
@@ -584,56 +626,4 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   }, { threshold: 0.1 });
   targets.forEach(function (el) { observer.observe(el); });
 })();
-
-// Load i18n labels from the global LANG and BASE variables set by skeleton.html
-window.loadLabels = function() {
-  console.log('[window.loadLabels] called, window.LANG =', window.LANG, 'window.BASE =', window.BASE);
-  if (typeof window.LANG === 'undefined' || typeof window.BASE === 'undefined') {
-    console.warn('[loadLabels] LANG or BASE not yet defined, skipping');
-    return; // skeleton hasn't set these yet
-  }
-  
-  var LANG = window.LANG;
-  var BASE = window.BASE;
-  console.log('loadLabels: fetching from', BASE + 'labels/' + LANG + '.json');
-  var LINKS = {
-    performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
-    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
-    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
-  };
-  fetch(BASE + 'labels/' + LANG + '.json', { cache: 'no-store' })
-    .then(function (r) { 
-      if (!r.ok) throw new Error('Failed to load labels: ' + r.status);
-      return r.json(); 
-    })
-    .then(function (labels) {
-      console.log('loadLabels: loaded', Object.keys(labels).length, 'labels');
-      document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n');
-        if (labels[key] !== undefined) el.textContent = labels[key];
-      });
-      document.querySelectorAll('#sas-nordic-welcome [data-i18n-alt]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n-alt');
-        if (labels[key] !== undefined) el.alt = labels[key];
-      });
-      document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n-template');
-        var template = labels[key];
-        if (template === undefined) return;
-        el.innerHTML = template.replace(/\{(\w+)\}/g, function (match, name) {
-          var link = LINKS[name];
-          if (!link) return match;
-          var text = labels[link.textKey] !== undefined ? labels[link.textKey] : name;
-          return '<a href="' + link.url + '" ' + link.attrs + '>' + text + '</a>';
-        });
-      });
-    })
-    .catch(function (err) {
-      console.error('loadLabels error:', err);
-    });
-};
-
-// Call loadLabels immediately (if variables are ready) and also after a small delay to ensure skeleton has set them
-window.loadLabels();
-setTimeout(function() { if (typeof window.loadLabels === 'function') window.loadLabels(); }, 50);
 </script>
