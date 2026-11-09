@@ -15,6 +15,8 @@
 
 4. **For French (FR) page:** Change `window.LANG = "en"` to `window.LANG = "fr"`
 
+5. **Add the sponsor footer:** add a second HTML block at the bottom of the page. Paste the full content of [`footer/sponsors.html`](footer/sponsors.html). Unlike the main content, the footer does **not** update from GitHub: after changing the file, paste it again.
+
 ## How It Works
 
 - The skeleton sets `window.LANG` and `window.BASE`, fetches `page-content.html` from GitHub via jsDelivr, injects it, and re-creates the `<script>` tags so they run.
@@ -28,7 +30,7 @@
 
 ## To Update Content
 
-Just push changes to GitHub - **no need to re-paste the skeleton**:
+Just push changes to GitHub - **no need to re-paste the skeleton**. (Exception: the sponsor footer must be re-pasted after changes.)
 
 ```bash
 # Edit text/labels
@@ -63,4 +65,5 @@ $ git push origin main
 - `page-content.html` - All content, structure, styling (auto-loaded)
 - `labels/en.json`, `labels/fr.json`, `labels/de.json` - Text translations
 - `athlete-info.json` - Athlete extra info for flip cards
+- `footer/sponsors.html` - Sponsor footer (blue band with white logos). Paste into its own HTML block at the bottom of the page
 
