@@ -52,7 +52,7 @@
     <h2 data-i18n="welcome_title"></h2>
     <p data-i18n="welcome_p1"></p>
     <p data-i18n="welcome_p2"></p>
-    <p>
+    <p style="text-align: center;">
       <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" class="btn-animated" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
     </p>
 
@@ -161,16 +161,19 @@
           .then(function (r) { return r.json(); })
           .then(function (data) { ATHLETE_INFO = data; });
 
-        var CAPTIONS = {
-          en: { status: 'Status', since: 'Member since', university: 'University', studies: 'Studies', sport: 'Primary sport' },
-          fr: { status: 'Statut', since: 'Membre depuis', university: 'Université', studies: 'Études', sport: 'Sport principal' },
-          de: { status: 'Status', since: 'Mitglied seit', university: 'Universität', studies: 'Studium', sport: 'Hauptsportart' }
-        };
-        var CAP = CAPTIONS.en;
+        var FLIP_LABELS = {};
+        // Preview only: labels are hardcoded to "en" here since this script can't be re-triggered by the EN/FR/DE buttons above.
+        fetch('pages/nordic-team/labels/en.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { FLIP_LABELS = data; });
+
+        function cap(key, fallback) {
+          return FLIP_LABELS[key] !== undefined ? FLIP_LABELS[key] : fallback;
+        }
 
         function row(label, value) {
           if (!value) return '';
-          return '<div class="flip-row"><p class="flip-value">' + value + '</p><p class="flip-label">' + label + '</p></div>';
+          return '<div class="flip-row"><p class="flip-label">' + label + '</p><p class="flip-value">' + value + '</p></div>';
         }
 
         function buildBack(name) {
@@ -179,11 +182,11 @@
           back.className = 'flip-card-back';
           var html = '<p class="flip-card-name">' + name + '</p>';
           if (info) {
-            html += row(CAP.status, info.status);
-            html += row(CAP.since, info.since);
-            html += row(CAP.university, info.university);
-            html += row(CAP.studies, info.studies);
-            html += row(CAP.sport, info.primarySport);
+            html += row(cap('flip_label_status', 'Status'), info.status);
+            html += row(cap('flip_label_since', 'Team member since'), info.since);
+            html += row(cap('flip_label_university', 'University'), info.university);
+            html += row(cap('flip_label_studies', 'Studies'), info.studies);
+            html += row(cap('flip_label_sport', 'Primary sport'), info.primarySport);
           }
           back.innerHTML = html;
           return back;
@@ -320,16 +323,16 @@
       .flip-row {
         margin: 0;
       }
-      .flip-value {
-        margin: 0;
-        font-size: 0.85rem;
-      }
       .flip-label {
-        margin: 0 0 6px 0 !important;
+        margin: 0 0 2px 0 !important;
         font-size: 0.65rem;
         color: #b9c6d6;
         text-transform: uppercase;
         letter-spacing: 0.04em;
+      }
+      .flip-value {
+        margin: 0 0 6px 0;
+        font-size: 0.85rem;
       }
     </style>
 

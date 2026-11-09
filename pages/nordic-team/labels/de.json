@@ -52,5 +52,10 @@
   "wwug_criteria_item_3": "Erfüllung der {performance_criteria_link} von Swiss University Sports",
   "wwug_criteria_link_text": "Leistungskriterien",
   "wwug_contact_p": "Für Anmeldungen wende dich bitte an {marcel_ott_link}, den Nordic-Koordinator bei Swiss University Sports.",
-  "wwug_contact_link_text": "Marcel Ott"
+  "wwug_contact_link_text": "Marcel Ott",
+  "flip_label_status": "Status",
+  "flip_label_since": "Teammitglied seit",
+  "flip_label_university": "Universität",
+  "flip_label_studies": "Studium",
+  "flip_label_sport": "Hauptsportart"
 }
