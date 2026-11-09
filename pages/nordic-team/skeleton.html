@@ -1,32 +1,19 @@
 <!-- Paste this exact block into each of the 3 Hivebrite "Nordic Team" pages (EN/FR/DE). -->
-<!-- This file only sets LANG and loads page-content.html from git via jsDelivr. All logic lives in page-content.html. -->
+<!-- This file only sets LANG and loads page-content.js from git via jsDelivr. All logic lives in page-content.js. -->
 <!-- Edit the real page (sections, text) in page-content.html and labels/*.json instead. -->
 <div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;"></div>
 <script>
 var LANG = "en"; /* only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de" */
 var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
-var root = document.getElementById('sas-nordic-welcome');
 
-// Load page-content.html by appending a script that fetches it
 var scriptTag = document.createElement('script');
 scriptTag.type = 'text/javascript';
-scriptTag.textContent = `
-fetch('${BASE}page-content.html', { cache: 'no-store' })
-  .then(r => r.text())
-  .then(html => {
-    var root = document.getElementById('sas-nordic-welcome');
-    root.innerHTML = html;
-    root.querySelectorAll('script').forEach(old => {
-      var s = document.createElement('script');
-      for (var i = 0; i < old.attributes.length; i++) 
-        s.setAttribute(old.attributes[i].name, old.attributes[i].value);
-      s.textContent = old.textContent;
-      old.parentNode.replaceChild(s, old);
-    });
-  })
-  .catch(err => {
-    console.error('Failed to load page-content.html:', err);
-    root.innerHTML = '<p>Unable to load content. Please refresh the page.</p>';
-  });
-`;
+scriptTag.src = BASE + 'page-content.js';
+scriptTag.onload = function() {
+  console.log('[skeleton] page-content.js loaded and executed');
+};
+scriptTag.onerror = function() {
+  console.error('[skeleton] failed to load page-content.js');
+  document.getElementById('sas-nordic-welcome').innerHTML = '<p>Unable to load content. Please refresh.</p>';
+};
 document.body.appendChild(scriptTag);

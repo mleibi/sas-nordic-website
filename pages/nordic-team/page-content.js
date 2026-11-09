@@ -1,0 +1,696 @@
+// page-content.js: wraps page-content.html and injects it into the page
+// This allows loading via <script src="...js"> which works better with Hivebrite's CSP
+
+(function() {
+  // Set defaults if skeleton hasn't set them yet
+  if (typeof window.LANG === 'undefined') window.LANG = 'en';
+  if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
+
+  var html = `
+<!-- Fetched at runtime by skeleton.html and injected into #sas-nordic-welcome. -->
+<!-- Edit wording in labels/en.json, labels/fr.json, labels/de.json, not here. -->
+
+<!-- Set default LANG and BASE if not provided by skeleton (for preview mode) -->
+<script>
+if (typeof window.LANG === 'undefined') window.LANG = 'en';
+if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
+
+// Auto-load labels as soon as defaults are set (don't wait for skeleton)
+(function autoLoadLabels() {
+  console.log('=== NORDIC PAGE LOADED: version 4040df2 ===');
+  var LANG = window.LANG;
+  var BASE = window.BASE;
+  console.log('[autoLoadLabels] starting with LANG =', LANG, 'BASE =', BASE);
+  
+  // Embedded labels for EN (workaround for Hivebrite CSP blocking jsDelivr)
+  var embeddedLabels = {
+    'en': {"welcome_title":"Welcome to the SAS Nordic Team!","welcome_p1":"The SAS Nordic Team is a regional association of Swiss-Ski that is open to students who are passionate about nordic skiing competitions. In the summer, we offer training camps and coaching, and in the winter, our athletes compete in various competitions. Our main focus is on cross-country skiing, for which we provide professional support for the Swiss Cup racing series.","welcome_p2":"Additionally, we also promote athletes in other Nordic sports such as biathlon, ski orienteering, Nordic combined, and ski jumping, although we do not provide specific training and competition support for these disciplines.","join_us_label":"Join us","disciplines_title":"Disciplines","discipline_cc_title":"Cross Country Skiing","discipline_biathlon_title":"Biathlon","discipline_sko_title":"Ski-Orienteering","hero_photo_alt":"SAS Nordic Team athletes","discipline_cc_alt":"Cross country skiing icon","discipline_biathlon_alt":"Biathlon icon","discipline_sko_alt":"Ski-orienteering icon","offer_title":"Offer","what_title":"What do we offer?","what_item_1":"Monthly training camps from June to November","what_item_2":"Race support including waxing and accommodation","what_item_3":"Individual coaching for technique and training","what_item_4":"Unique SAS Spirit","offer_what_alt":"SAS Nordic Team training camp","offer_who_alt":"SAS Nordic Team athletes racing","offer_comp_alt":"SAS Nordic Team at a competition","who_title":"Who are we aimed at?","who_item_1":"FIS athletes pursuing a dual career","who_item_2":"Ex-FIS athletes starting an academic path who would like to stay attached with racing","who_item_3":"Ambitious students (mass sport) when free spots are available","comp_title":"Our Competitions and Events","comp_item_1":"Swiss Cup series","comp_item_2":"Selected FESA Cup races, sometimes in collaboration with other teams","comp_item_3":"Universiade (every 2 years)","comp_item_4":"Selected Swiss Loppet races","comp_item_5":"SAS Events such as the Pentathlon","comp_item_6":"Swiss University Sport Events","athletes_title":"Athletes","athletes_women_title":"Women","athletes_men_title":"Men","staff_title":"Staff","staff_manager_role":"Nordic Manager","staff_manager_name":"Matthias Leibundgut","staff_coach_role":"Nordic Coach","staff_coach_name":"Jonatan Engdahl","staff_contact_label":"Contact","wwug_title":"Universiade","wwug_photo_alt":"Cross country skiers at the Universiade","countdown_days":"Days","countdown_hours":"Hours","countdown_minutes":"Minutes","wwug_p1":"The Universiade is the Olympic Games for university students. In close collaboration with Swiss University Sports, SAS is involved in the support of the Nordic disciplines.","wwug_location_p":"📍 Changchun, China — {official_site_link}","wwug_official_site_link_text":"Official website","wwug_criteria_title":"Criteria:","wwug_criteria_item_1":"Enrolled at a university or college","wwug_criteria_item_2":"Age: 28 years or younger","wwug_criteria_item_3":"Fulfillment of the {performance_criteria_link} set by Swiss University Sports","wwug_criteria_link_text":"performance criteria","wwug_contact_p":"For applications, please contact {marcel_ott_link}, the Nordic Coordinator at Swiss University Sports.","wwug_contact_link_text":"Marcel Ott","flip_label_status":"Status","flip_label_since":"Team member since","flip_label_university":"University","flip_label_studies":"Studies","flip_label_sport":"Primary sport"}
+  };
+  
+  // Try to load labels from jsDelivr (only source that works in Hivebrite due to CSP)
+  // If that fails, use embedded labels as fallback
+  var labelUrls = [
+    'https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/' + LANG + '.json'
+  ];
+  
+  function tryLoadLabels(urls, index) {
+    if (index >= urls.length) {
+      // Fallback to embedded labels
+      console.log('[autoLoadLabels] using embedded labels for', LANG);
+      populateLabels(embeddedLabels[LANG] || embeddedLabels['en']);
+      return;
+    }
+    var url = urls[index];
+    console.log('[autoLoadLabels] trying to load from', url);
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { 
+        if (!r.ok) throw new Error('Status ' + r.status);
+        return r.json(); 
+      })
+      .then(function (labels) {
+        console.log('[autoLoadLabels] SUCCESS! loaded', Object.keys(labels).length, 'labels from', url);
+        populateLabels(labels);
+      })
+      .catch(function (err) {
+        console.warn('[autoLoadLabels] failed to load from', url, ':', err.message, '- using embedded fallback...');
+        tryLoadLabels(urls, index + 1);
+      });
+  }
+  
+  function populateLabels(labels) {
+    var LINKS = {
+      performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
+      marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
+      official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
+    };
+    document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (labels[key] !== undefined) el.textContent = labels[key];
+    });
+    document.querySelectorAll('#sas-nordic-welcome [data-i18n-alt]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-alt');
+      if (labels[key] !== undefined) el.alt = labels[key];
+    });
+    document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-template');
+      var template = labels[key];
+      if (template === undefined) return;
+      el.innerHTML = template.replace(/\\{(\\w+)\\}/g, function (match, name) {
+        var link = LINKS[name];
+        if (!link) return match;
+        var text = labels[link.textKey] !== undefined ? labels[link.textKey] : name;
+        return '<a href="' + link.url + '" ' + link.attrs + '>' + text + '</a>';
+      });
+    });
+  }
+  
+  tryLoadLabels(labelUrls, 0);
+})();
+</script>
+
+<!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src of each slide as photos come in. -->
+<div class="hero-carousel" style="position: relative; width: 100%; aspect-ratio: 16 / 6; overflow: hidden; border-radius: 8px; margin-bottom: 20px;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/6109557" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131072" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131074" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131075" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131077" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131076" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" src="https://sas-ski.ch/storage/7131079" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+</div>
+<style>
+  .hero-slide { animation: hero-zoom 14s ease-in-out infinite alternate; }
+  @keyframes hero-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+  }
+</style>
+<script>
+  (function () {
+    var slides = document.querySelectorAll('#sas-nordic-welcome .hero-slide');
+    if (!slides.length) return;
+    var i = 0;
+    slides[0].style.opacity = '1';
+    setInterval(function () {
+      slides[i].style.opacity = '0';
+      i = (i + 1) % slides.length;
+      slides[i].style.opacity = '1';
+    }, 4000);
+  })();
+</script>
+
+<h2 data-i18n="welcome_title"></h2>
+<p data-i18n="welcome_p1"></p>
+<p data-i18n="welcome_p2"></p>
+<p style="text-align: center;">
+  <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" class="btn-animated" style="display: inline-block; padding: 10px 20px; background: #0a3d62; color: #fff; text-decoration: none; border-radius: 4px;"></a>
+</p>
+
+<nav class="section-nav">
+  <a href="#disciplines" data-i18n="disciplines_title"></a>
+  <a href="#offer" data-i18n="offer_title"></a>
+  <a href="#athletes" data-i18n="athletes_title"></a>
+  <a href="#staff" data-i18n="staff_title"></a>
+  <a href="#wwug" data-i18n="wwug_title"></a>
+</nav>
+
+<h2 id="disciplines" data-i18n="disciplines_title"></h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; text-align: center;">
+  <div style="flex: 1; min-width: 140px;">
+    <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+      <img data-src="icons/cross-country.svg" data-i18n-alt="discipline_cc_alt" style="width: 80px; height: 80px;">
+    </div>
+    <h4 data-i18n="discipline_cc_title"></h4>
+  </div>
+  <div style="flex: 1; min-width: 140px;">
+    <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+      <img data-src="icons/biathlon.svg" data-i18n-alt="discipline_biathlon_alt" style="width: 80px; height: 80px;">
+    </div>
+    <h4 data-i18n="discipline_biathlon_title"></h4>
+  </div>
+  <div style="flex: 1; min-width: 140px;">
+    <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
+      <img data-src="icons/ski-orienteering.svg" data-i18n-alt="discipline_sko_alt" style="width: 80px; height: 80px;">
+    </div>
+    <h4 data-i18n="discipline_sko_title"></h4>
+  </div>
+</div>
+<script>
+  function setSrcFromBase() {
+    console.log('[setSrcFromBase] called, window.BASE =', window.BASE);
+    if (typeof window.BASE === 'undefined') {
+      console.warn('[setSrcFromBase] window.BASE not yet defined, retrying in 10ms');
+      setTimeout(setSrcFromBase, 10);
+      return;
+    }
+    console.log('[setSrcFromBase] setting data-src elements');
+    document.querySelectorAll('#sas-nordic-welcome [data-src]').forEach(function (el) { el.src = window.BASE + el.getAttribute('data-src'); });
+  }
+  setSrcFromBase();
+</script>
+
+<h2 id="offer" data-i18n="offer_title"></h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around;">
+  <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
+    <img src="https://sas-ski.ch/storage/6109559/download" data-i18n-alt="offer_what_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+    <h4 data-i18n="what_title"></h4>
+    <ul>
+      <li data-i18n="what_item_1"></li>
+      <li data-i18n="what_item_2"></li>
+      <li data-i18n="what_item_3"></li>
+      <li data-i18n="what_item_4"></li>
+    </ul>
+  </div>
+  <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
+    <img src="https://sas-ski.ch/storage/6109560/download" data-i18n-alt="offer_who_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+    <h4 data-i18n="who_title"></h4>
+    <ul>
+      <li data-i18n="who_item_1"></li>
+      <li data-i18n="who_item_2"></li>
+      <li data-i18n="who_item_3"></li>
+    </ul>
+  </div>
+  <div class="offer-card" style="flex: 1; min-width: 220px; max-width: 260px; padding: 10px;">
+    <img src="https://sas-ski.ch/storage/6109561/download" data-i18n-alt="offer_comp_alt" loading="lazy" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+    <h4 data-i18n="comp_title"></h4>
+    <ul>
+      <li data-i18n="comp_item_1"></li>
+      <li data-i18n="comp_item_2"></li>
+      <li data-i18n="comp_item_3"></li>
+      <li data-i18n="comp_item_4"></li>
+      <li data-i18n="comp_item_5"></li>
+      <li data-i18n="comp_item_6"></li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="athletes" data-i18n="athletes_title"></h2>
+
+<h3 data-i18n="athletes_women_title"></h3>
+<div class="users" id="nordicw" style="display:flex;flex-wrap: wrap;">
+  <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+</div>
+
+<h3 data-i18n="athletes_men_title"></h3>
+<div class="users" id="nordicm" style="display:flex;flex-wrap: wrap;">
+  <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+</div>
+
+<script>
+  function loadAthleteTeam(containerId, teamName) {
+    var container = document.querySelector(containerId);
+    if (container) container.innerHTML = ''; // clear the loading skeleton before injecting real cards
+    window.addAthlete(containerId, teamName, window.LANG);
+  }
+  function loadAthletesScript() {
+    var scriptTag = document.createElement('script');
+    scriptTag.type = 'text/javascript';
+    scriptTag.src = 'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@latest/sas_users-with-css.js';
+    scriptTag.onload = function () {
+      loadAthleteTeam('#nordicw', 'Nordic Women Team');
+      loadAthleteTeam('#nordicm', 'Nordic Men Team');
+    };
+    document.body.appendChild(scriptTag);
+  }
+  (function () {
+    // The athlete script needs jQuery; load it first if this page doesn't already have it.
+    if (window.jQuery) {
+      loadAthletesScript();
+      return;
+    }
+    var jq = document.createElement('script');
+    jq.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+    jq.onload = loadAthletesScript;
+    document.body.appendChild(jq);
+  })();
+</script>
+
+<!-- Click an athlete card to flip it and show extra info from athlete-info.json -->
+<script>
+  function initFlipCards() {
+    console.log('[initFlipCards] called, window.BASE =', window.BASE, 'window.LANG =', window.LANG);
+    if (typeof window.BASE === 'undefined' || typeof window.LANG === 'undefined') {
+      console.warn('[initFlipCards] window.BASE or window.LANG not yet defined, retrying in 10ms');
+      setTimeout(initFlipCards, 10);
+      return;
+    }
+    console.log('[initFlipCards] initializing flip card logic');
+    (function () {
+      var ATHLETE_INFO = {};
+      var FLIP_LABELS = {};
+      // Wait for both fetches before building any card back, otherwise captions render in English (the fallback).
+      var ready = Promise.all([
+        fetch(window.BASE + 'athlete-info.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { ATHLETE_INFO = data; }),
+        fetch(window.BASE + 'labels/' + window.LANG + '.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { FLIP_LABELS = data; })
+      ]);
+
+      function cap(key, fallback) {
+        return FLIP_LABELS[key] !== undefined ? FLIP_LABELS[key] : fallback;
+      }
+
+      function row(label, value) {
+        if (!value) return '';
+        return '<div class="flip-row"><p class="flip-label">' + label + '</p><p class="flip-value">' + value + '</p></div>';
+      }
+
+      function buildBack(name) {
+        var info = ATHLETE_INFO[name];
+        var back = document.createElement('div');
+        back.className = 'flip-card-back';
+        var html = '<p class="flip-card-name">' + name + '</p>';
+        if (info) {
+          html += row(cap('flip_label_status', 'Status'), info.status);
+          html += row(cap('flip_label_since', 'Team member since'), info.since);
+          html += row(cap('flip_label_university', 'University'), info.university);
+          html += row(cap('flip_label_studies', 'Studies'), info.studies);
+          html += row(cap('flip_label_sport', 'Primary sport'), info.primarySport);
+        }
+        back.innerHTML = html;
+        return back;
+      }
+
+      function enhance(container) {
+        ready.then(function () {
+          container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
+            var nameEl = card.querySelector('p');
+            var name = nameEl ? nameEl.textContent.trim() : '';
+            var front = document.createElement('div');
+            front.className = 'flip-card-front';
+            while (card.firstChild) front.appendChild(card.firstChild);
+            var inner = document.createElement('div');
+            inner.className = 'flip-card-inner';
+            inner.appendChild(front);
+            inner.appendChild(buildBack(name));
+            card.appendChild(inner);
+            card.classList.add('flip-card');
+            card.addEventListener('click', function () {
+              card.classList.toggle('flipped');
+            });
+          });
+        });
+      }
+
+      ['#nordicw', '#nordicm'].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        new MutationObserver(function () { enhance(el); }).observe(el, { childList: true });
+      });
+    })();
+  }
+  initFlipCards();
+</script>
+
+<h2 id="staff" data-i18n="staff_title"></h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; text-align: center;">
+  <div style="min-width: 180px;">
+    <img src="https://sas-ski.ch/storage/6109562/download" data-i18n-alt="staff_manager_name" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto;">
+    <h4 data-i18n="staff_manager_role"></h4>
+    <p data-i18n="staff_manager_name"></p>
+    <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
+  </div>
+  <div style="min-width: 180px;">
+    <img src="https://sas-ski.ch/storage/6109563/download" data-i18n-alt="staff_coach_name" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto;">
+    <h4 data-i18n="staff_coach_role"></h4>
+    <p data-i18n="staff_coach_name"></p>
+    <a href="mailto:coach-nordic@sas-ski.ch" data-i18n="staff_contact_label" class="btn-animated"></a>
+  </div>
+</div>
+
+<style>
+  .users {
+    gap: 2rem;
+    justify-content: center;
+    padding-top: 2.5rem;
+    overflow: visible;
+  }
+
+  .users > * {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: athlete-in 0.5s ease backwards;
+    border-radius: 8px;
+    overflow: hidden; /* clip the zoomed image to the card's rounded corners */
+    padding: 10px; /* breathing room so the hover zoom doesn't clip the image/name */
+    box-sizing: border-box;
+  }
+
+  .users > *:hover {
+    transform: translateY(-8px) scale(1.06);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    position: relative;
+  }
+
+  .users img {
+    transition: transform 0.4s ease;
+  }
+  .users > *:hover img {
+    transform: scale(1.08);
+  }
+
+  @keyframes athlete-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Athlete card flip */
+  .users {
+    perspective: 1200px;
+  }
+  .flip-card {
+    cursor: pointer;
+    min-height: 260px;
+    position: relative;
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg) scale(1.05);
+  }
+  .flip-card-front,
+  .flip-card-back {
+    backface-visibility: hidden;
+    width: 100%;
+  }
+  .flip-card-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    background: #0a3d62;
+    color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 12px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  .flip-card-back p {
+    margin: 0;
+  }
+  .flip-card-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px !important;
+  }
+  .flip-row {
+    margin: 0;
+  }
+  .flip-label {
+    margin: 0 0 2px 0 !important;
+    font-size: 0.65rem;
+    color: #b9c6d6;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .flip-value {
+    margin: 0 0 6px 0;
+    font-size: 0.85rem;
+  }
+</style>
+
+<style>
+  /* Scroll-reveal: top-level sections fade/slide in as they enter the viewport */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Offer cards: lift + image zoom on hover */
+  .offer-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: #f4f7fa;
+  }
+  .offer-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+  .offer-card img {
+    transition: transform 0.4s ease;
+  }
+  .offer-card:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Discipline icon circles: scale + glow on hover */
+  .discipline-icon {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .discipline-icon:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 20px rgba(10, 61, 98, 0.35);
+  }
+
+  /* Buttons/contact links: lift on hover */
+  .btn-animated {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-animated:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(10, 61, 98, 0.3);
+  }
+
+  /* Section nav */
+  .section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+  .section-nav a {
+    color: #0a3d62;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .section-nav a:hover {
+    border-color: #0a3d62;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  h2[id] {
+    scroll-margin-top: 20px;
+  }
+
+  /* Back-to-top button */
+  #back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0a3d62;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+  }
+  #back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Athlete grid loading skeleton */
+  .skeleton-card {
+    width: 160px;
+    height: 200px;
+    margin: 10px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f4f4f4 50%, #e8e8e8 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.3s infinite;
+  }
+  @keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* WWUG countdown */
+  .countdown {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .countdown-item {
+    text-align: center;
+    background: #0a3d62;
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 18px;
+    min-width: 70px;
+  }
+  .countdown-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .countdown-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+</style>
+
+<h2 id="wwug" data-i18n="wwug_title"></h2>
+<p><img src="https://sas-ski.ch/storage/6109565/download" data-i18n-alt="wwug_photo_alt" loading="lazy" style="max-width: 100%; height: auto;"></p>
+<!-- Target date: 15.01.2027 -->
+<div class="countdown" id="wwug-countdown" data-target="2027-01-15T00:00:00">
+  <div class="countdown-item"><span class="countdown-value" data-unit="days">0</span><span class="countdown-label" data-i18n="countdown_days"></span></div>
+  <div class="countdown-item"><span class="countdown-value" data-unit="hours">0</span><span class="countdown-label" data-i18n="countdown_hours"></span></div>
+  <div class="countdown-item"><span class="countdown-value" data-unit="minutes">0</span><span class="countdown-label" data-i18n="countdown_minutes"></span></div>
+</div>
+<p data-i18n-template="wwug_location_p" style="text-align: center;"></p>
+<p data-i18n="wwug_p1"></p>
+<p><strong data-i18n="wwug_criteria_title"></strong></p>
+<ul>
+  <li data-i18n="wwug_criteria_item_1"></li>
+  <li data-i18n="wwug_criteria_item_2"></li>
+  <li data-i18n-template="wwug_criteria_item_3"></li>
+</ul>
+<p data-i18n-template="wwug_contact_p"></p>
+
+<button id="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<script>
+(function () {
+  // Back-to-top button: shows after scrolling past the hero carousel
+  var btn = document.getElementById('back-to-top');
+  var hero = document.querySelector('.hero-carousel');
+  if (!btn) return;
+  function toggle() {
+    var threshold = hero ? hero.offsetTop + hero.offsetHeight : 300;
+    btn.classList.toggle('visible', window.scrollY > threshold);
+  }
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle();
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  // WWUG countdown
+  var el = document.getElementById('wwug-countdown');
+  if (!el) return;
+  var target = new Date(el.getAttribute('data-target')).getTime();
+  var daysEl = el.querySelector('[data-unit="days"]');
+  var hoursEl = el.querySelector('[data-unit="hours"]');
+  var minutesEl = el.querySelector('[data-unit="minutes"]');
+  function update() {
+    var diff = target - Date.now();
+    if (diff < 0) diff = 0;
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    var minutes = Math.floor((diff / (1000 * 60)) % 60);
+    daysEl.textContent = days;
+    hoursEl.textContent = hours;
+    minutesEl.textContent = minutes;
+  }
+  update();
+  setInterval(update, 60000);
+})();
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('#sas-nordic-welcome > *:not(script):not(style)');
+  targets.forEach(function (el) { el.classList.add('reveal'); });
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  targets.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+  `;
+
+  var root = document.getElementById('sas-nordic-welcome');
+  if (!root) {
+    console.error('[page-content.js] ERROR: #sas-nordic-welcome not found!');
+    return;
+  }
+
+  // Inject HTML
+  root.innerHTML = html;
+
+  // Re-execute any scripts that were injected
+  root.querySelectorAll('script').forEach(function(oldScript) {
+    var newScript = document.createElement('script');
+    // Copy attributes
+    for (var i = 0; i < oldScript.attributes.length; i++) {
+      var attr = oldScript.attributes[i];
+      newScript.setAttribute(attr.name, attr.value);
+    }
+    // Copy content
+    newScript.textContent = oldScript.textContent;
+    // Replace old with new (so it executes)
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+
+  console.log('[page-content.js] Nordic Team page injected successfully');
+})();
