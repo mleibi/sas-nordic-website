@@ -423,23 +423,8 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     z-index: 1;
     transition: transform 0.3s ease;
   }
-  #sas-nordic-welcome .discipline-icon img[data-src*="cross-country"] { animation: glide 2.6s ease-in-out infinite; }
-  #sas-nordic-welcome .discipline-icon img[data-src*="biathlon"] { animation: aim 3s ease-in-out infinite; }
-  #sas-nordic-welcome .discipline-icon img[data-src*="orienteering"] { animation: lean 3.4s ease-in-out infinite; }
-  #sas-nordic-welcome .discipline-icon:hover img { animation-duration: 0.9s; }
+  #sas-nordic-welcome .discipline-icon:hover img { transform: scale(1.05); }
   @keyframes orbit { to { transform: rotate(360deg); } }
-  @keyframes glide {
-    0%, 100% { transform: translateX(-5px) rotate(-3deg); }
-    50% { transform: translateX(5px) rotate(2deg); }
-  }
-  @keyframes aim {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.06) translateY(-1px); }
-  }
-  @keyframes lean {
-    0%, 100% { transform: rotate(-5deg) translateX(-2px); }
-    50% { transform: rotate(4deg) translateX(3px); }
-  }
   @keyframes speed-lines {
     from { background-position: 140% 38%, 160% 58%, 150% 74%; }
     to { background-position: -60% 38%, -80% 58%, -70% 74%; }
