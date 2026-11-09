@@ -30,8 +30,7 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 - `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `page-content.html`.
 - `pages/nordic-team/icons/` — SVG icons for the Disciplines section, loaded via `<img>` from jsDelivr (not inlined).
 - The hero photo carousel above the title uses Hivebrite-hosted images (`https://sas-ski.ch/storage/<id>`), not files in this repo — see "Images" below.
-- `footer/sponsors.html` — site-wide sponsors footer markup (`#sponsors` container + styles). Paste into any Hivebrite page's custom HTML block.
-- `footer/sponsors-script.html` — companion script that loads the sponsor logos into `#sponsors`. Requires jQuery (already on Hivebrite). Paste alongside `sponsors.html`.
+- `footer/sponsors.html` — site-wide sponsors footer (container, styles and loader script in one file). Paste the whole file into one custom HTML block at the bottom of a Hivebrite page. The logos are white, so the file sets the blue `#013a81` band. Requires jQuery (already on Hivebrite).
 
 Changing the page structure (adding/removing a section) means editing `page-content.html` once and adding the matching key to all 3 JSON files — never touch `skeleton.html` for this. The push to `main` automatically purges the jsDelivr cache for changed files.
 

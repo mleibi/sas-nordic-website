@@ -65,53 +65,23 @@ function loadLang(lang) {
 }
 </script>
 
-<!-- Footer preview: content of footer/sponsors.html + footer/sponsors-script.html -->
-<hr style="margin: 2rem 0;">
+<!-- Footer preview: copy of footer/sponsors.html -->
 <div id="sponsors"></div>
-
 <style>
-  #sponsors {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem !important;
-    padding: 1rem;
-  }
-
-  #sponsors h1, #sponsors h2, #sponsors h3,
-  #sponsors h4, #sponsors h5, #sponsors h6 {
-    transform: none !important;
-  }
-
-  /* nur Skalierung beim Hover, sonst nichts an Grösse/Position ändern */
-  #sponsors img {
-    transition: transform 0.3s ease;
-  }
-
-  #sponsors img:hover {
-    transform: scale(1.15);
-    position: relative;
-    z-index: 10;
-  }
-
-  #sponsors {
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-  #sponsors.loaded {
-    opacity: 1;
-  }
+  #sponsors { display: flex !important; flex-wrap: wrap !important; justify-content: center; align-items: center; padding: 40px 1rem; margin-top: 48px; background: #013a81; box-shadow: 0 0 0 100vmax #013a81; clip-path: inset(0 -100vmax); opacity: 0; transition: opacity 0.6s ease; }
+  #sponsors.loaded { opacity: 1; }
+  #sponsors .sponsors { width: 100%; max-width: 1100px; margin: 0 auto; }
+  #sponsors .sponsors h2 { text-align: center; margin: 0 0 16px; transform: none !important; }
+  #sponsors .sponsor_grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 32px; }
+  #sponsors .sponsor { width: auto; flex: 0 0 auto; }
+  #sponsors .sponsor img { width: 130px; max-width: 130px; height: auto; transition: transform 0.3s ease; }
+  #sponsors .sponsor img:hover { transform: scale(1.1); }
 </style>
-
 <script>
   $(document).ready(function () {
-    $('#sponsors').load(
-      'https://cdn.jsdelivr.net/gh/pec0ra/sas-website@vlatest/sponsors-with-css.html',
-      function () {
-        $('#sponsors').addClass('loaded');
-      }
-    );
+    $('#sponsors').load('https://cdn.jsdelivr.net/gh/pec0ra/sas-website@vlatest/sponsors-with-css.html', function () {
+      $('#sponsors').addClass('loaded');
+    });
   });
 </script>
 </body>
