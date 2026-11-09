@@ -19,6 +19,7 @@
 
 - The skeleton sets `window.LANG` and `window.BASE`, fetches `page-content.html` from GitHub via jsDelivr, injects it, and re-creates the `<script>` tags so they run.
 - Do **not** load `page-content.html` with `<script src>`: jsDelivr serves `.html` as `text/plain` with `nosniff`, so the browser refuses to run it.
+- Hivebrite removes all line breaks when saving. Never use `//` comments in pasted scripts (they comment out everything after them); use `/* */`.
 - Do **not** embed the HTML in a JS string: the first inner `</script>` ends the outer script.
 - This works because Hivebrite's CSP is in report-only mode (same as the old page with `sas_users-with-css.js`). If Hivebrite ever enforces it, ask them to whitelist `cdn.jsdelivr.net` in `script-src` and `connect-src`.
 - All text comes from language-specific JSON files (labels)
