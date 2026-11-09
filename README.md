@@ -25,7 +25,7 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 ## Files
 
 - `website.md` — code snippets for the website.
-- `pages/nordic-team/skeleton.html` — the tiny, ~10-line block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). It only sets `LANG` and fetches `page-content.html` from jsDelivr at runtime, so **it should never need to be re-pasted again** once it's on all 3 pages.
+- `pages/nordic-team/skeleton.html` — the tiny, ~15-line block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). It only sets `LANG` and fetches `page-content.html` from jsDelivr at runtime. **It should never need to be re-pasted again** once it's on all 3 pages. The skeleton remains minimal on purpose: all logic, styles, and text live in `page-content.html` and the label JSON files, so changes happen in this repo without touching Hivebrite again.
 - `pages/nordic-team/page-content.html` — the actual page (all sections, markup, CSS, JS). Edit this for structural changes; it goes live automatically on every push to `main`, no re-pasting into Hivebrite needed.
 - `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `page-content.html`.
 - `pages/nordic-team/icons/` — SVG icons for the Disciplines section, loaded via `<img>` from jsDelivr (not inlined).
