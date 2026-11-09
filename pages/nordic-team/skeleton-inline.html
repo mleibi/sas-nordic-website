@@ -1,0 +1,32 @@
+<!-- INLINE VERSION for Hivebrite (embeds page-content.js directly to bypass CSP restrictions) -->
+<!-- Paste this into Hivebrite pages when cdn.jsdelivr.net is blocked by CSP -->
+<div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;"></div>
+<script>
+var LANG = "en"; /* only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de" */
+var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
+
+// Inline fetch + inject approach (works despite CSP since script-src allows 'unsafe-inline')
+fetch(BASE + 'page-content.html', { cache: 'no-store' })
+  .then(function(r) { return r.text(); })
+  .then(function(html) {
+    var root = document.getElementById('sas-nordic-welcome');
+    root.innerHTML = html;
+    
+    // Re-execute injected scripts
+    root.querySelectorAll('script').forEach(function(oldScript) {
+      var newScript = document.createElement('script');
+      for (var i = 0; i < oldScript.attributes.length; i++) {
+        var attr = oldScript.attributes[i];
+        newScript.setAttribute(attr.name, attr.value);
+      }
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+    
+    console.log('[skeleton-inline] Nordic Team page loaded successfully');
+  })
+  .catch(function(err) {
+    console.error('[skeleton-inline] Failed to load content:', err);
+    document.getElementById('sas-nordic-welcome').innerHTML = '<p style="color: red;">Unable to load content. Error: ' + err.message + '</p>';
+  });
+</script>
