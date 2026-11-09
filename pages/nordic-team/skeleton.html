@@ -5,15 +5,28 @@
 <script>
 var LANG = "en"; /* only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de" */
 var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
-fetch(BASE + 'page-content.html', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
-  var root = document.getElementById('sas-nordic-welcome');
-  root.innerHTML = html;
-  root.querySelectorAll('script').forEach(function (old) {
-    var s = document.createElement('script');
-    for (var i = 0; i < old.attributes.length; i++) s.setAttribute(old.attributes[i].name, old.attributes[i].value);
-    s.textContent = old.textContent;
-    old.parentNode.replaceChild(s, old);
+var root = document.getElementById('sas-nordic-welcome');
+
+// Load page-content.html by appending a script that fetches it
+var scriptTag = document.createElement('script');
+scriptTag.type = 'text/javascript';
+scriptTag.textContent = `
+fetch('${BASE}page-content.html', { cache: 'no-store' })
+  .then(r => r.text())
+  .then(html => {
+    var root = document.getElementById('sas-nordic-welcome');
+    root.innerHTML = html;
+    root.querySelectorAll('script').forEach(old => {
+      var s = document.createElement('script');
+      for (var i = 0; i < old.attributes.length; i++) 
+        s.setAttribute(old.attributes[i].name, old.attributes[i].value);
+      s.textContent = old.textContent;
+      old.parentNode.replaceChild(s, old);
+    });
+  })
+  .catch(err => {
+    console.error('Failed to load page-content.html:', err);
+    root.innerHTML = '<p>Unable to load content. Please refresh the page.</p>';
   });
-  if (typeof window.loadLabels === 'function') window.loadLabels();
-});
-</script>
+`;
+document.body.appendChild(scriptTag);
