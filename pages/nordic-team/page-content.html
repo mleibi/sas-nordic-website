@@ -1,6 +1,12 @@
 <!-- Fetched at runtime by skeleton.html and injected into #sas-nordic-welcome. -->
 <!-- Edit wording in labels/en.json, labels/fr.json, labels/de.json, not here. -->
 
+<!-- Set default LANG and BASE if not provided by skeleton (for preview mode) -->
+<script>
+if (typeof window.LANG === 'undefined') window.LANG = 'en';
+if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
+</script>
+
 <!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src of each slide as photos come in. -->
 <div class="hero-carousel" style="position: relative; width: 100%; aspect-ratio: 16 / 6; overflow: hidden; border-radius: 8px; margin-bottom: 20px;">
   <img class="hero-slide" src="https://sas-ski.ch/storage/6109557" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
