@@ -380,6 +380,11 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     #sas-nordic-welcome .section-nav a { flex: 0 0 auto; white-space: nowrap; }
   }
 
+  /* Phones: one athlete per row (the external script sets width: 25% inline) */
+  @media (max-width: 600px) {
+    #sas-nordic-welcome .users > .user { width: 100% !important; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     #sas-nordic-welcome .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
     #sas-nordic-welcome .stagger > * { opacity: 1 !important; animation: none !important; }
