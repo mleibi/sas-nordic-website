@@ -75,14 +75,14 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   </div>
 </div>
 <script>
-  // Icon src is resolved against window.BASE (jsDelivr in production, a local relative path in preview.html) so this markup works in both.
-  // Defer to ensure window.BASE is set first
   function setSrcFromBase() {
+    console.log('[setSrcFromBase] called, window.BASE =', window.BASE);
     if (typeof window.BASE === 'undefined') {
-      console.warn('setSrcFromBase: window.BASE not yet defined, retrying in 10ms');
+      console.warn('[setSrcFromBase] window.BASE not yet defined, retrying in 10ms');
       setTimeout(setSrcFromBase, 10);
       return;
     }
+    console.log('[setSrcFromBase] setting data-src elements');
     document.querySelectorAll('#sas-nordic-welcome [data-src]').forEach(function (el) { el.src = window.BASE + el.getAttribute('data-src'); });
   }
   setSrcFromBase();
@@ -168,11 +168,13 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 <!-- Click an athlete card to flip it and show extra info from athlete-info.json -->
 <script>
   function initFlipCards() {
+    console.log('[initFlipCards] called, window.BASE =', window.BASE, 'window.LANG =', window.LANG);
     if (typeof window.BASE === 'undefined' || typeof window.LANG === 'undefined') {
-      console.warn('initFlipCards: window.BASE or window.LANG not yet defined, retrying in 10ms');
+      console.warn('[initFlipCards] window.BASE or window.LANG not yet defined, retrying in 10ms');
       setTimeout(initFlipCards, 10);
       return;
     }
+    console.log('[initFlipCards] initializing flip card logic');
     (function () {
       var ATHLETE_INFO = {};
       var FLIP_LABELS = {};
@@ -585,8 +587,9 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 
 // Load i18n labels from the global LANG and BASE variables set by skeleton.html
 window.loadLabels = function() {
+  console.log('[window.loadLabels] called, window.LANG =', window.LANG, 'window.BASE =', window.BASE);
   if (typeof window.LANG === 'undefined' || typeof window.BASE === 'undefined') {
-    console.warn('loadLabels: LANG or BASE not yet defined');
+    console.warn('[loadLabels] LANG or BASE not yet defined, skipping');
     return; // skeleton hasn't set these yet
   }
   
