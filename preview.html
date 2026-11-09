@@ -487,6 +487,7 @@
       <div class="countdown-item"><span class="countdown-value" data-unit="hours">0</span><span class="countdown-label" data-i18n="countdown_hours"></span></div>
       <div class="countdown-item"><span class="countdown-value" data-unit="minutes">0</span><span class="countdown-label" data-i18n="countdown_minutes"></span></div>
     </div>
+    <p data-i18n-template="wwug_location_p" style="text-align: center;"></p>
     <p data-i18n="wwug_p1"></p>
     <p><strong data-i18n="wwug_criteria_title"></strong></p>
     <ul>
@@ -504,7 +505,8 @@
 function loadLang(lang) {
   var LINKS = {
     performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
-    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' }
+    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
+    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
   };
   fetch('pages/nordic-team/labels/' + lang + '.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
