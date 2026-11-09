@@ -75,8 +75,17 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   </div>
 </div>
 <script>
-  // Icon src is resolved against BASE (jsDelivr in production, a local relative path in preview.html) so this markup works in both.
-  document.querySelectorAll('#sas-nordic-welcome [data-src]').forEach(function (el) { el.src = BASE + el.getAttribute('data-src'); });
+  // Icon src is resolved against window.BASE (jsDelivr in production, a local relative path in preview.html) so this markup works in both.
+  // Defer to ensure window.BASE is set first
+  function setSrcFromBase() {
+    if (typeof window.BASE === 'undefined') {
+      console.warn('setSrcFromBase: window.BASE not yet defined, retrying in 10ms');
+      setTimeout(setSrcFromBase, 10);
+      return;
+    }
+    document.querySelectorAll('#sas-nordic-welcome [data-src]').forEach(function (el) { el.src = window.BASE + el.getAttribute('data-src'); });
+  }
+  setSrcFromBase();
 </script>
 
 <h2 id="offer" data-i18n="offer_title"></h2>
@@ -158,71 +167,79 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 
 <!-- Click an athlete card to flip it and show extra info from athlete-info.json -->
 <script>
-  (function () {
-    var ATHLETE_INFO = {};
-    var FLIP_LABELS = {};
-    // Wait for both fetches before building any card back, otherwise captions render in English (the fallback).
-    var ready = Promise.all([
-      fetch(window.BASE + 'athlete-info.json', { cache: 'no-store' })
-        .then(function (r) { return r.json(); })
-        .then(function (data) { ATHLETE_INFO = data; }),
-      fetch(window.BASE + 'labels/' + window.LANG + '.json', { cache: 'no-store' })
-        .then(function (r) { return r.json(); })
-        .then(function (data) { FLIP_LABELS = data; })
-    ]);
-
-    function cap(key, fallback) {
-      return FLIP_LABELS[key] !== undefined ? FLIP_LABELS[key] : fallback;
+  function initFlipCards() {
+    if (typeof window.BASE === 'undefined' || typeof window.LANG === 'undefined') {
+      console.warn('initFlipCards: window.BASE or window.LANG not yet defined, retrying in 10ms');
+      setTimeout(initFlipCards, 10);
+      return;
     }
+    (function () {
+      var ATHLETE_INFO = {};
+      var FLIP_LABELS = {};
+      // Wait for both fetches before building any card back, otherwise captions render in English (the fallback).
+      var ready = Promise.all([
+        fetch(window.BASE + 'athlete-info.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { ATHLETE_INFO = data; }),
+        fetch(window.BASE + 'labels/' + window.LANG + '.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { FLIP_LABELS = data; })
+      ]);
 
-    function row(label, value) {
-      if (!value) return '';
-      return '<div class="flip-row"><p class="flip-label">' + label + '</p><p class="flip-value">' + value + '</p></div>';
-    }
-
-    function buildBack(name) {
-      var info = ATHLETE_INFO[name];
-      var back = document.createElement('div');
-      back.className = 'flip-card-back';
-      var html = '<p class="flip-card-name">' + name + '</p>';
-      if (info) {
-        html += row(cap('flip_label_status', 'Status'), info.status);
-        html += row(cap('flip_label_since', 'Team member since'), info.since);
-        html += row(cap('flip_label_university', 'University'), info.university);
-        html += row(cap('flip_label_studies', 'Studies'), info.studies);
-        html += row(cap('flip_label_sport', 'Primary sport'), info.primarySport);
+      function cap(key, fallback) {
+        return FLIP_LABELS[key] !== undefined ? FLIP_LABELS[key] : fallback;
       }
-      back.innerHTML = html;
-      return back;
-    }
 
-    function enhance(container) {
-      ready.then(function () {
-        container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
-          var nameEl = card.querySelector('p');
-          var name = nameEl ? nameEl.textContent.trim() : '';
-          var front = document.createElement('div');
-          front.className = 'flip-card-front';
-          while (card.firstChild) front.appendChild(card.firstChild);
-          var inner = document.createElement('div');
-          inner.className = 'flip-card-inner';
-          inner.appendChild(front);
-          inner.appendChild(buildBack(name));
-          card.appendChild(inner);
-          card.classList.add('flip-card');
-          card.addEventListener('click', function () {
-            card.classList.toggle('flipped');
+      function row(label, value) {
+        if (!value) return '';
+        return '<div class="flip-row"><p class="flip-label">' + label + '</p><p class="flip-value">' + value + '</p></div>';
+      }
+
+      function buildBack(name) {
+        var info = ATHLETE_INFO[name];
+        var back = document.createElement('div');
+        back.className = 'flip-card-back';
+        var html = '<p class="flip-card-name">' + name + '</p>';
+        if (info) {
+          html += row(cap('flip_label_status', 'Status'), info.status);
+          html += row(cap('flip_label_since', 'Team member since'), info.since);
+          html += row(cap('flip_label_university', 'University'), info.university);
+          html += row(cap('flip_label_studies', 'Studies'), info.studies);
+          html += row(cap('flip_label_sport', 'Primary sport'), info.primarySport);
+        }
+        back.innerHTML = html;
+        return back;
+      }
+
+      function enhance(container) {
+        ready.then(function () {
+          container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
+            var nameEl = card.querySelector('p');
+            var name = nameEl ? nameEl.textContent.trim() : '';
+            var front = document.createElement('div');
+            front.className = 'flip-card-front';
+            while (card.firstChild) front.appendChild(card.firstChild);
+            var inner = document.createElement('div');
+            inner.className = 'flip-card-inner';
+            inner.appendChild(front);
+            inner.appendChild(buildBack(name));
+            card.appendChild(inner);
+            card.classList.add('flip-card');
+            card.addEventListener('click', function () {
+              card.classList.toggle('flipped');
+            });
           });
         });
-      });
-    }
+      }
 
-    ['#nordicw', '#nordicm'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (!el) return;
-      new MutationObserver(function () { enhance(el); }).observe(el, { childList: true });
-    });
-  })();
+      ['#nordicw', '#nordicm'].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        new MutationObserver(function () { enhance(el); }).observe(el, { childList: true });
+      });
+    })();
+  }
+  initFlipCards();
 </script>
 
 <h2 id="staff" data-i18n="staff_title"></h2>
