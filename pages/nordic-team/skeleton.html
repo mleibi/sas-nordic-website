@@ -14,5 +14,6 @@ fetch(BASE + 'page-content.html', { cache: 'no-store' }).then(function (r) { ret
     s.textContent = old.textContent;
     old.parentNode.replaceChild(s, old);
   });
+  if (typeof window.loadLabels === 'function') window.loadLabels();
 });
 </script>
