@@ -3,8 +3,40 @@
 <!-- Edit the real page (sections, text) in page-content.html and labels/*.json instead. -->
 <div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;"></div>
 <script>
-var LANG = "en"; // <-- only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de"
+var LANG = "en"; /* only line that changes between the EN/FR/DE Hivebrite pages: "en" | "fr" | "de" */
 var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
+
+function loadLang(lang) {
+  var LINKS = {
+    performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
+    marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
+    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
+  };
+  fetch(BASE + 'labels/' + lang + '.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (labels) {
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (labels[key] !== undefined) el.textContent = labels[key];
+      });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-alt]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-alt');
+        if (labels[key] !== undefined) el.alt = labels[key];
+      });
+      document.querySelectorAll('#sas-nordic-welcome [data-i18n-template]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-template');
+        var template = labels[key];
+        if (template === undefined) return;
+        el.innerHTML = template.replace(/\{(\w+)\}/g, function (match, name) {
+          var link = LINKS[name];
+          if (!link) return match;
+          var text = labels[link.textKey] !== undefined ? labels[link.textKey] : name;
+          return '<a href="' + link.url + '" ' + link.attrs + '>' + text + '</a>';
+        });
+      });
+    });
+}
+
 fetch(BASE + 'page-content.html', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
   var root = document.getElementById('sas-nordic-welcome');
   root.innerHTML = html;
@@ -14,5 +46,6 @@ fetch(BASE + 'page-content.html', { cache: 'no-store' }).then(function (r) { ret
     s.textContent = old.textContent;
     old.parentNode.replaceChild(s, old);
   });
+  loadLang(LANG);
 });
 </script>
