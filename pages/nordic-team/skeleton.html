@@ -1,0 +1,17 @@
+<!-- Paste into Hivebrite - loads all content from GitHub -->
+<div id="sas-nordic-welcome" style="font-family: inherit; max-width: 800px; margin: 0 auto; line-height: 1.6;"></div>
+<script>
+var LANG = "en"; // Change to "fr" or "de" for other languages
+var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/";
+
+var scriptTag = document.createElement('script');
+scriptTag.type = 'text/javascript';
+scriptTag.src = BASE + 'page-content.html';
+scriptTag.onload = function() {
+  console.log('[skeleton] page-content.html loaded');
+};
+scriptTag.onerror = function(err) {
+  console.error('[skeleton] failed:', err);
+};
+document.body.appendChild(scriptTag);
+</script>
