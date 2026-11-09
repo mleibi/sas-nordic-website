@@ -25,16 +25,17 @@ Only this `Code` folder is a git repository. The rest of the `Nordisch` Google D
 ## Files
 
 - `website.md` — code snippets for the website.
-- `pages/nordic-team/skeleton.html` — the one custom HTML block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). Identical everywhere except the `LANG` value in its `<script>`, which picks which JSON file of text to load.
-- `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `skeleton.html`.
+- `pages/nordic-team/skeleton.html` — the tiny, ~10-line block pasted into all 3 Hivebrite "Nordic Team" pages (EN/FR/DE). It only sets `LANG` and fetches `page-content.html` from jsDelivr at runtime, so **it should never need to be re-pasted again** once it's on all 3 pages.
+- `pages/nordic-team/page-content.html` — the actual page (all sections, markup, CSS, JS). Edit this for structural changes; it goes live automatically on every push to `main`, no re-pasting into Hivebrite needed.
+- `pages/nordic-team/labels/en.json`, `fr.json`, `de.json` — the actual page text per language. Edit these to change wording; never edit text directly in `page-content.html`.
 - `pages/nordic-team/icons/` — SVG icons for the Disciplines section, loaded via `<img>` from jsDelivr (not inlined).
 - The hero photo carousel above the title uses Hivebrite-hosted images (`https://sas-ski.ch/storage/<id>`), not files in this repo — see "Images" below.
 - `footer/sponsors.html` — site-wide sponsors footer markup (`#sponsors` container + styles). Paste into any Hivebrite page's custom HTML block.
 - `footer/sponsors-script.html` — companion script that loads the sponsor logos into `#sponsors`. Requires jQuery (already on Hivebrite). Paste alongside `sponsors.html`.
 
-Changing the page structure (adding/removing a section) means editing `skeleton.html` once and adding the matching key to all 3 JSON files. The push to `main` automatically purges the jsDelivr cache for changed files.
+Changing the page structure (adding/removing a section) means editing `page-content.html` once and adding the matching key to all 3 JSON files — never touch `skeleton.html` for this. The push to `main` automatically purges the jsDelivr cache for changed files.
 
 ## Images
 
-- **Content photos** (team/event photos, hero carousel): upload directly through the Hivebrite page editor's image/media block, not into this repo. Hivebrite then hosts it at a stable `https://sas-ski.ch/storage/<id>/download` URL (no `Expires`/`Signature` params) — use that URL directly in `skeleton.html`. Never use a signed "download" link copied straight from a file browser; those expire after a few hours.
+- **Content photos** (team/event photos, hero carousel): upload directly through the Hivebrite page editor's image/media block, not into this repo. Hivebrite then hosts it at a stable `https://sas-ski.ch/storage/<id>/download` URL (no `Expires`/`Signature` params) — use that URL directly in `page-content.html`. Never use a signed "download" link copied straight from a file browser; those expire after a few hours.
 - **Template assets** (the Discipline icons, anything tied to the page's own markup/CSS): keep in this repo under `pages/nordic-team/icons/`, versioned alongside the structural changes that use them.

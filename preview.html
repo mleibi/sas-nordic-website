@@ -157,15 +157,17 @@
     <script>
       (function () {
         var ATHLETE_INFO = {};
-        fetch('pages/nordic-team/athlete-info.json', { cache: 'no-store' })
-          .then(function (r) { return r.json(); })
-          .then(function (data) { ATHLETE_INFO = data; });
-
         var FLIP_LABELS = {};
         // Preview only: labels are hardcoded to "en" here since this script can't be re-triggered by the EN/FR/DE buttons above.
-        fetch('pages/nordic-team/labels/en.json', { cache: 'no-store' })
-          .then(function (r) { return r.json(); })
-          .then(function (data) { FLIP_LABELS = data; });
+        // Wait for both fetches before building any card back, otherwise captions render in English (the fallback).
+        var ready = Promise.all([
+          fetch('pages/nordic-team/athlete-info.json', { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (data) { ATHLETE_INFO = data; }),
+          fetch('pages/nordic-team/labels/en.json', { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (data) { FLIP_LABELS = data; })
+        ]);
 
         function cap(key, fallback) {
           return FLIP_LABELS[key] !== undefined ? FLIP_LABELS[key] : fallback;
@@ -193,20 +195,22 @@
         }
 
         function enhance(container) {
-          container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
-            var nameEl = card.querySelector('p');
-            var name = nameEl ? nameEl.textContent.trim() : '';
-            var front = document.createElement('div');
-            front.className = 'flip-card-front';
-            while (card.firstChild) front.appendChild(card.firstChild);
-            var inner = document.createElement('div');
-            inner.className = 'flip-card-inner';
-            inner.appendChild(front);
-            inner.appendChild(buildBack(name));
-            card.appendChild(inner);
-            card.classList.add('flip-card');
-            card.addEventListener('click', function () {
-              card.classList.toggle('flipped');
+          ready.then(function () {
+            container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
+              var nameEl = card.querySelector('p');
+              var name = nameEl ? nameEl.textContent.trim() : '';
+              var front = document.createElement('div');
+              front.className = 'flip-card-front';
+              while (card.firstChild) front.appendChild(card.firstChild);
+              var inner = document.createElement('div');
+              inner.className = 'flip-card-inner';
+              inner.appendChild(front);
+              inner.appendChild(buildBack(name));
+              card.appendChild(inner);
+              card.classList.add('flip-card');
+              card.addEventListener('click', function () {
+                card.classList.toggle('flipped');
+              });
             });
           });
         }
