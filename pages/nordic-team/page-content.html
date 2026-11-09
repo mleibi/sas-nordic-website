@@ -51,23 +51,27 @@
 <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; text-align: center;">
   <div style="flex: 1; min-width: 140px;">
     <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-      <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/cross-country.svg" data-i18n-alt="discipline_cc_alt" style="width: 80px; height: 80px;">
+      <img data-src="icons/cross-country.svg" data-i18n-alt="discipline_cc_alt" style="width: 80px; height: 80px;">
     </div>
     <h4 data-i18n="discipline_cc_title"></h4>
   </div>
   <div style="flex: 1; min-width: 140px;">
     <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-      <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/biathlon.svg" data-i18n-alt="discipline_biathlon_alt" style="width: 80px; height: 80px;">
+      <img data-src="icons/biathlon.svg" data-i18n-alt="discipline_biathlon_alt" style="width: 80px; height: 80px;">
     </div>
     <h4 data-i18n="discipline_biathlon_title"></h4>
   </div>
   <div style="flex: 1; min-width: 140px;">
     <div class="discipline-icon" style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; background: #0a3d62; display: flex; align-items: center; justify-content: center;">
-      <img src="https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/icons/ski-orienteering.svg" data-i18n-alt="discipline_sko_alt" style="width: 80px; height: 80px;">
+      <img data-src="icons/ski-orienteering.svg" data-i18n-alt="discipline_sko_alt" style="width: 80px; height: 80px;">
     </div>
     <h4 data-i18n="discipline_sko_title"></h4>
   </div>
 </div>
+<script>
+  // Icon src is resolved against BASE (jsDelivr in production, a local relative path in preview.html) so this markup works in both.
+  document.querySelectorAll('#sas-nordic-welcome [data-src]').forEach(function (el) { el.src = BASE + el.getAttribute('data-src'); });
+</script>
 
 <h2 id="offer" data-i18n="offer_title"></h2>
 
@@ -153,10 +157,10 @@
     var FLIP_LABELS = {};
     // Wait for both fetches before building any card back, otherwise captions render in English (the fallback).
     var ready = Promise.all([
-      fetch('https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/athlete-info.json', { cache: 'no-store' })
+      fetch(BASE + 'athlete-info.json', { cache: 'no-store' })
         .then(function (r) { return r.json(); })
         .then(function (data) { ATHLETE_INFO = data; }),
-      fetch('https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/' + LANG + '.json', { cache: 'no-store' })
+      fetch(BASE + 'labels/' + LANG + '.json', { cache: 'no-store' })
         .then(function (r) { return r.json(); })
         .then(function (data) { FLIP_LABELS = data; })
     ]);
@@ -497,8 +501,6 @@
 
 <script>
 (function () {
-  var BASE = "https://cdn.jsdelivr.net/gh/mleibi/sas-nordic-website@main/pages/nordic-team/labels/";
-
   // Fixed, non-translated link targets. Labels only supply translated link text via {placeholder} tokens.
   var LINKS = {
     performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
@@ -506,7 +508,7 @@
     official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
   };
 
-  fetch(BASE + LANG + ".json", { cache: "no-store" })
+  fetch(BASE + "labels/" + LANG + ".json", { cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (labels) {
       document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
