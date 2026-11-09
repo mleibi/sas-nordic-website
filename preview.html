@@ -37,7 +37,8 @@ function loadLang(lang) {
   var LINKS = {
     performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
     marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
-    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
+    official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' },
+    swiss_cup_link: { url: 'https://www.swiss-ski.ch/events/bkw-swiss-cup/', attrs: 'target="_blank" rel="noopener"', textKey: 'welcome_swiss_cup_link_text' }
   };
   fetch(BASE + 'labels/' + lang + '.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })

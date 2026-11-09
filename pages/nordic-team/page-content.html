@@ -13,22 +13,13 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   var BASE = window.BASE;
   console.log('[autoLoadLabels] starting with LANG =', LANG, 'BASE =', BASE);
   
-  // Embedded labels for EN (workaround for Hivebrite CSP blocking jsDelivr)
-  var embeddedLabels = {
-    'en': {"welcome_title":"Welcome to the SAS Nordic Team!","welcome_p1":"The SAS Nordic Team is a regional association of Swiss-Ski that is open to students who are passionate about nordic skiing competitions. In the summer, we offer training camps and coaching, and in the winter, our athletes compete in various competitions. Our main focus is on cross-country skiing, for which we provide professional support for the Swiss Cup racing series.","welcome_p2":"Additionally, we also promote athletes in other Nordic sports such as biathlon, ski orienteering, Nordic combined, and ski jumping, although we do not provide specific training and competition support for these disciplines.","join_us_label":"Join us","disciplines_title":"Disciplines","discipline_cc_title":"Cross Country Skiing","discipline_biathlon_title":"Biathlon","discipline_sko_title":"Ski-Orienteering","hero_photo_alt":"SAS Nordic Team athletes","discipline_cc_alt":"Cross country skiing icon","discipline_biathlon_alt":"Biathlon icon","discipline_sko_alt":"Ski-orienteering icon","offer_title":"Offer","what_title":"What do we offer?","what_item_1":"Monthly training camps from June to November","what_item_2":"Race support including waxing and accommodation","what_item_3":"Individual coaching for technique and training","what_item_4":"Unique SAS Spirit","offer_what_alt":"SAS Nordic Team training camp","offer_who_alt":"SAS Nordic Team athletes racing","offer_comp_alt":"SAS Nordic Team at a competition","who_title":"Who are we aimed at?","who_item_1":"FIS athletes pursuing a dual career","who_item_2":"Ex-FIS athletes starting an academic path who would like to stay attached with racing","who_item_3":"Ambitious students (mass sport) when free spots are available","comp_title":"Our Competitions and Events","comp_item_1":"Swiss Cup series","comp_item_2":"Selected FESA Cup races, sometimes in collaboration with other teams","comp_item_3":"Universiade (every 2 years)","comp_item_4":"Selected Swiss Loppet races","comp_item_5":"SAS Events such as the Pentathlon","comp_item_6":"Swiss University Sport Events","athletes_title":"Athletes","athletes_women_title":"Women","athletes_men_title":"Men","staff_title":"Staff","staff_manager_role":"Nordic Manager","staff_manager_name":"Matthias Leibundgut","staff_coach_role":"Nordic Coach","staff_coach_name":"Jonatan Engdahl","staff_contact_label":"Contact","wwug_title":"Universiade","wwug_photo_alt":"Cross country skiers at the Universiade","countdown_days":"Days","countdown_hours":"Hours","countdown_minutes":"Minutes","countdown_seconds":"Seconds","stat_athletes":"Athletes","stat_disciplines":"Disciplines","stat_camps":"Training camps per year","stat_coaches":"Coach","wwug_p1":"The Universiade is the Olympic Games for university students. In close collaboration with Swiss University Sports, SAS is involved in the support of the Nordic disciplines.","wwug_location_p":"📍 Changchun, China — {official_site_link}","wwug_official_site_link_text":"Official website","wwug_criteria_title":"Criteria:","wwug_criteria_item_1":"Enrolled at a university or college","wwug_criteria_item_2":"Age: 28 years or younger","wwug_criteria_item_3":"Fulfillment of the {performance_criteria_link} set by Swiss University Sports","wwug_criteria_link_text":"performance criteria","wwug_contact_p":"For applications, please contact {marcel_ott_link}, the Nordic Coordinator at Swiss University Sports.","wwug_contact_link_text":"Marcel Ott","flip_label_status":"Status","flip_label_since":"Team member since","flip_label_university":"University","flip_label_studies":"Studies","flip_label_sport":"Primary sport"}
-  };
-  
-  // Try to load labels from jsDelivr (only source that works in Hivebrite due to CSP)
-  // If that fails, use embedded labels as fallback
   var labelUrls = [
     BASE + 'labels/' + LANG + '.json'
   ];
   
   function tryLoadLabels(urls, index) {
     if (index >= urls.length) {
-      // Fallback to embedded labels
-      console.log('[autoLoadLabels] using embedded labels for', LANG);
-      populateLabels(embeddedLabels[LANG] || embeddedLabels['en']);
+      console.error('[autoLoadLabels] could not load labels for', LANG);
       return;
     }
     var url = urls[index];
@@ -43,7 +34,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
         populateLabels(labels);
       })
       .catch(function (err) {
-        console.warn('[autoLoadLabels] failed to load from', url, ':', err.message, '- using embedded fallback...');
+        console.warn('[autoLoadLabels] failed to load from', url, ':', err.message);
         tryLoadLabels(urls, index + 1);
       });
   }
@@ -52,7 +43,8 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     var LINKS = {
       performance_criteria_link: { url: 'https://swissuniversitysports.ch/sportarten/ski-nordisch-2/', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_criteria_link_text' },
       marcel_ott_link: { url: 'mailto:chef-nordic@sas-ski.ch', attrs: '', textKey: 'wwug_contact_link_text' },
-      official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' }
+      official_site_link: { url: 'https://www.changchun2027.com.cn/?uc_sm=1', attrs: 'target="_blank" rel="noopener"', textKey: 'wwug_official_site_link_text' },
+      swiss_cup_link: { url: 'https://www.swiss-ski.ch/events/bkw-swiss-cup/', attrs: 'target="_blank" rel="noopener"', textKey: 'welcome_swiss_cup_link_text' }
     };
     document.querySelectorAll('#sas-nordic-welcome [data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
@@ -446,7 +438,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 
 </style>
 
-<p data-i18n="welcome_p1" class="lead"></p>
+<p data-i18n-template="welcome_p1" class="lead"></p>
 <p data-i18n="welcome_p2"></p>
 
 <!-- Key numbers. Athletes are counted from the roster; edit data-count for the others. -->
