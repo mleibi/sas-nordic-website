@@ -1009,7 +1009,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   var targets = document.querySelectorAll('#sas-nordic-welcome > *:not(script):not(style)');
   targets.forEach(function (el) { el.classList.add('reveal'); });
   if (!('IntersectionObserver' in window)) {
-    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    document.querySelectorAll('#sas-nordic-welcome .reveal, #sas-nordic-welcome .stagger').forEach(function (el) { el.classList.add('is-visible'); });
     return;
   }
   var observer = new IntersectionObserver(function (entries) {
@@ -1021,6 +1021,8 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     });
   }, { threshold: 0.1 });
   targets.forEach(function (el) { observer.observe(el); });
+  /* Nested .stagger blocks (e.g. the countdown) need their own trigger */
+  document.querySelectorAll('#sas-nordic-welcome .stagger:not(.reveal)').forEach(function (el) { observer.observe(el); });
 })();
 </script>
 
