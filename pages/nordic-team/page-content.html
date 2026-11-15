@@ -639,9 +639,25 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
         return back;
       }
 
+      // Athlete photos come from an external repo as full-resolution originals (often 0.5-1.5 MB,
+      // several MP) but only ever display in a 160px circle. Route them through a free resize proxy
+      // so browsers decode a small image instead of downscaling a huge one (source of both the
+      // occasional rendering artifacts and the extra memory load on mobile).
+      function shrinkAthletePhoto(img) {
+        if (!img || img.dataset.shrunk) return;
+        var src = img.getAttribute('src') || '';
+        var m = src.match(/^https?:\/\/(.+)$/);
+        if (!m) return;
+        img.dataset.shrunk = '1';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.src = 'https://images.weserv.nl/?url=' + encodeURIComponent(m[1]) + '&w=160&h=160&fit=cover&q=82';
+      }
+
       function enhance(container) {
         ready.then(function () {
           container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
+            shrinkAthletePhoto(card.querySelector('img'));
             var nameEl = card.querySelector('p');
             var name = nameEl ? nameEl.textContent.trim() : '';
             var front = document.createElement('div');
