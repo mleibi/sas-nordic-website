@@ -71,22 +71,25 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 })();
 </script>
 
-<!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src of each slide as photos come in. -->
+<!-- Hero photo carousel: images are hosted on Hivebrite, not this repo. Replace the src/data-src of each slide as photos come in.
+     Source photos are several MB / up to ~5000px wide; only the first slide loads eagerly, the rest load
+     one at a time (current + next) via data-src so mobile browsers never decode all 7 full-res photos at once. -->
 <div class="hero-carousel">
   <img class="hero-slide" src="https://sas-ski.ch/storage/6109557" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131072" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131074" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131075" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131077" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131076" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
-  <img class="hero-slide" src="https://sas-ski.ch/storage/7131079" data-i18n-alt="hero_photo_alt" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131072" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131074" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131075" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131077" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131076" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
+  <img class="hero-slide" data-src="https://sas-ski.ch/storage/7131079" data-i18n-alt="hero_photo_alt" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;">
   <div class="hero-overlay">
     <h2 class="hero-title" data-i18n="welcome_title"></h2>
     <a href="mailto:chef-nordic@sas-ski.ch" data-i18n="join_us_label" class="btn-animated btn-primary btn-light"></a>
   </div>
 </div>
 <style>
-  .hero-slide { animation: hero-zoom 14s ease-in-out infinite alternate; }
+  /* Only the active slide runs the zoom animation, so idle slides aren't kept GPU-composited in the background */
+  .hero-slide.is-active { animation: hero-zoom 14s ease-in-out infinite alternate; }
   @keyframes hero-zoom {
     from { transform: scale(1); }
     to { transform: scale(1.1); }
@@ -97,11 +100,30 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     var slides = document.querySelectorAll('#sas-nordic-welcome .hero-slide');
     if (!slides.length) return;
     var i = 0;
-    slides[0].style.opacity = '1';
+
+    function ensureLoaded(slide) {
+      if (slide.dataset.src) {
+        slide.src = slide.dataset.src;
+        delete slide.dataset.src;
+      }
+    }
+
+    function showSlide(index) {
+      var current = slides[index];
+      ensureLoaded(current);
+      slides.forEach(function (s) { if (s !== current) { s.style.opacity = '0'; s.classList.remove('is-active'); } });
+      current.style.opacity = '1';
+      // restart the zoom animation from scale(1) each time a slide becomes active
+      current.classList.remove('is-active');
+      void current.offsetWidth; // force reflow so the animation restarts
+      current.classList.add('is-active');
+      ensureLoaded(slides[(index + 1) % slides.length]); // preload the next slide ahead of time
+    }
+
+    showSlide(0);
     setInterval(function () {
-      slides[i].style.opacity = '0';
       i = (i + 1) % slides.length;
-      slides[i].style.opacity = '1';
+      showSlide(i);
     }, 4000);
   })();
 </script>
