@@ -563,9 +563,32 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
 </div>
 
 <script>
+  // The roster script (addAthlete) inserts each photo with its full-resolution jsDelivr URL via
+  // jQuery .append(), so the browser starts downloading the huge original the instant it's in the
+  // DOM. Patching .append() to rewrite the URL *before* insertion (instead of after, via
+  // MutationObserver) means the oversized image is never requested at all - just the small proxied
+  // one - avoiding a double-fetch burst for the whole roster that was stalling the rest of the page.
+  function patchAppendForPhotoProxy() {
+    if ($.fn.append.photoProxyPatched) return;
+    var original = $.fn.append;
+    var photoUrlPattern = /(<img [^>]*?src=")(https?:\/\/cdn\.jsdelivr\.net\/gh\/pec0ra\/sas-website\/photos\/[^"]+)(")/g;
+    $.fn.append = function () {
+      var args = Array.prototype.slice.call(arguments).map(function (arg) {
+        if (typeof arg !== 'string' || arg.indexOf('cdn.jsdelivr.net/gh/pec0ra/sas-website/photos/') === -1) return arg;
+        return arg.replace(photoUrlPattern, function (match, before, url, quote) {
+          var proxied = 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=480&h=480&fit=cover&q=85';
+          return before.replace('<img ', '<img loading="lazy" decoding="async" ') + proxied + quote;
+        });
+      });
+      return original.apply(this, args);
+    };
+    $.fn.append.photoProxyPatched = true;
+  }
+
   function loadAthleteTeam(containerId, teamName) {
     var container = document.querySelector(containerId);
     if (container) container.innerHTML = ''; // clear the loading skeleton before injecting real cards
+    patchAppendForPhotoProxy();
     window.addAthlete(containerId, teamName, window.LANG);
   }
   function loadAthletesScript() {
@@ -639,27 +662,27 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
         return back;
       }
 
-      // Athlete photos come from an external repo as full-resolution originals (often 0.5-1.5 MB,
-      // several MP) but only ever display in a 160px circle. Route them through a free resize proxy
-      // so browsers decode a small image instead of downscaling a huge one (source of both the
-      // occasional rendering artifacts and the extra memory load on mobile). Request 480px (3x the
-      // 160px CSS box) so the photo still looks sharp on Retina/high-DPI screens.
-      function shrinkAthletePhoto(img) {
-        if (!img || img.dataset.shrunk) return;
-        var src = img.getAttribute('src') || '';
-        var m = src.match(/^https?:\/\/(.+)$/);
-        if (!m) return;
-        img.dataset.shrunk = '1';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.src = 'https://images.weserv.nl/?url=' + encodeURIComponent(m[1]) + '&w=480&h=480&fit=cover&q=85';
-      }
-
+      // Athlete photos are pre-shrunk via a resize proxy before insertion (see patchAppendForPhotoProxy
+      // above), so they just need the flip-card structure here, not another src rewrite.
       function enhance(container) {
         ready.then(function () {
           container.querySelectorAll('.user:not(.flip-card)').forEach(function (card) {
-            shrinkAthletePhoto(card.querySelector('img'));
             var nameEl = card.querySelector('p');
+            var name = nameEl ? nameEl.textContent.trim() : '';
+            var front = document.createElement('div');
+            front.className = 'flip-card-front';
+            while (card.firstChild) front.appendChild(card.firstChild);
+            var inner = document.createElement('div');
+            inner.className = 'flip-card-inner';
+            inner.appendChild(front);
+            inner.appendChild(buildBack(name));
+            card.appendChild(inner);
+            card.classList.add('flip-card');
+            card.addEventListener('click', function () {
+              card.classList.toggle('flipped');
+            });
+          });
+        });
             var name = nameEl ? nameEl.textContent.trim() : '';
             var front = document.createElement('div');
             front.className = 'flip-card-front';
