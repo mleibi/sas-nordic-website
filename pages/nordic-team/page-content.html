@@ -323,7 +323,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   }
   #sas-nordic-welcome .wwug-side .countdown {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     max-width: 640px;
     margin: 24px auto 16px;
@@ -381,7 +381,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     #sas-nordic-welcome .btn-primary.btn-light { padding: 7px 18px; font-size: 14px; }
     #sas-nordic-welcome .stats { grid-template-columns: repeat(2, 1fr); }
     #sas-nordic-welcome .wwug-photo { aspect-ratio: 4 / 3; border-radius: 12px; }
-    #sas-nordic-welcome .wwug-side .countdown { grid-template-columns: repeat(2, 1fr); }
+    #sas-nordic-welcome .wwug-side .countdown { grid-template-columns: repeat(3, 1fr); }
     #sas-nordic-welcome .section-nav {
       flex-wrap: nowrap;
       justify-content: flex-start;
@@ -683,21 +683,6 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
             });
           });
         });
-            var name = nameEl ? nameEl.textContent.trim() : '';
-            var front = document.createElement('div');
-            front.className = 'flip-card-front';
-            while (card.firstChild) front.appendChild(card.firstChild);
-            var inner = document.createElement('div');
-            inner.className = 'flip-card-inner';
-            inner.appendChild(front);
-            inner.appendChild(buildBack(name));
-            card.appendChild(inner);
-            card.classList.add('flip-card');
-            card.addEventListener('click', function () {
-              card.classList.toggle('flipped');
-            });
-          });
-        });
       }
 
       ['#nordicw', '#nordicm'].forEach(function (sel) {
@@ -979,7 +964,6 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
       <div class="countdown-item"><span class="countdown-value" data-unit="days">0</span><span class="countdown-label" data-i18n="countdown_days"></span></div>
       <div class="countdown-item"><span class="countdown-value" data-unit="hours">0</span><span class="countdown-label" data-i18n="countdown_hours"></span></div>
       <div class="countdown-item"><span class="countdown-value" data-unit="minutes">0</span><span class="countdown-label" data-i18n="countdown_minutes"></span></div>
-      <div class="countdown-item"><span class="countdown-value" data-unit="seconds">0</span><span class="countdown-label" data-i18n="countdown_seconds"></span></div>
     </div>
     <p class="wwug-location" data-i18n-template="wwug_location_p"></p>
   </div>
@@ -1022,7 +1006,6 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
   var daysEl = el.querySelector('[data-unit="days"]');
   var hoursEl = el.querySelector('[data-unit="hours"]');
   var minutesEl = el.querySelector('[data-unit="minutes"]');
-  var secondsEl = el.querySelector('[data-unit="seconds"]');
   function set(node, value) {
     if (!node || node.textContent === String(value)) return;
     node.textContent = value;
@@ -1036,10 +1019,9 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
     set(daysEl, Math.floor(diff / 86400000));
     set(hoursEl, Math.floor((diff / 3600000) % 24));
     set(minutesEl, Math.floor((diff / 60000) % 60));
-    set(secondsEl, Math.floor((diff / 1000) % 60));
   }
   update();
-  setInterval(update, 1000);
+  setInterval(update, 30000);
 })();
 </script>
 
