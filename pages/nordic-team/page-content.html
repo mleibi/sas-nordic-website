@@ -642,7 +642,8 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
       // Athlete photos come from an external repo as full-resolution originals (often 0.5-1.5 MB,
       // several MP) but only ever display in a 160px circle. Route them through a free resize proxy
       // so browsers decode a small image instead of downscaling a huge one (source of both the
-      // occasional rendering artifacts and the extra memory load on mobile).
+      // occasional rendering artifacts and the extra memory load on mobile). Request 480px (3x the
+      // 160px CSS box) so the photo still looks sharp on Retina/high-DPI screens.
       function shrinkAthletePhoto(img) {
         if (!img || img.dataset.shrunk) return;
         var src = img.getAttribute('src') || '';
@@ -651,7 +652,7 @@ if (typeof window.BASE === 'undefined') window.BASE = 'pages/nordic-team/';
         img.dataset.shrunk = '1';
         img.loading = 'lazy';
         img.decoding = 'async';
-        img.src = 'https://images.weserv.nl/?url=' + encodeURIComponent(m[1]) + '&w=160&h=160&fit=cover&q=82';
+        img.src = 'https://images.weserv.nl/?url=' + encodeURIComponent(m[1]) + '&w=480&h=480&fit=cover&q=85';
       }
 
       function enhance(container) {
